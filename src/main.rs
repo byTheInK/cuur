@@ -29,15 +29,24 @@ fn main() {
     };
     let os_name = os_get().os_type().to_string().to_lowercase();
 
-    if !(parsed.sys.works_on.get(0) == Some(&"all".to_string()))
-        && !parsed
-            .sys
-            .works_on
-            .iter()
-            .any(|x| x.to_lowercase() == os_name)
-    {
-        println!("This script does not work in your system. If you wrote an uncorrect name check https://crates.io/crates/os_info.");
-    } else {
-        println!("This script is supported on your system");
+    let is_include = parsed.sys.works_on.first() == Some(&"include".to_string());
+    let is_exclude = parsed.sys.works_on.first() == Some(&"exclude".to_string());
+
+    let mut is_allowed: bool = parsed.sys.works_on.first() == Some(&"all".to_string());
+
+    if parsed.sys.works_on.contains(&os_name) && !is_allowed {
+        if is_exclude {
+            is_allowed = false;
+        }
+        if is_include {
+            is_allowed = true;
+        }
     }
+
+    if !is_allowed {
+        eprintln!("This script does not work in your system. If you wrote an uncorrect name check https://crates.io/crates/os_info.");
+        return;
+    }
+
+    println!("Activating the script");
 }
