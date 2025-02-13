@@ -1,7 +1,9 @@
 use os_info::get as os_get;
 use std::fs;
+use std::process::Command;
 use toml;
 
+pub mod package_managers;
 pub mod structs;
 
 fn main() {
@@ -27,12 +29,13 @@ fn main() {
             return;
         }
     };
-    let os_name = os_get().os_type().to_string().to_lowercase();
+    let os_name = os_get().os_type().to_string();
 
     let is_include = parsed.sys.works_on.first() == Some(&"include".to_string());
     let is_exclude = parsed.sys.works_on.first() == Some(&"exclude".to_string());
 
-    let mut is_allowed: bool = parsed.sys.works_on.first() == Some(&"all".to_string());
+    let mut is_allowed = parsed.sys.works_on.first() == Some(&"all".to_string());
+    let mut install_prefix = "install";
 
     if parsed.sys.works_on.contains(&os_name) && !is_allowed {
         if is_exclude {
@@ -52,4 +55,27 @@ fn main() {
     }
 
     println!("Activating the script");
+
+    if os_name.clone() == String::from("Arch Linux") {
+        install_prefix = "-S";
+    }
+
+    match package_managers::get_package_manager(&os_name.as_str()) {
+        Some(pm) => {
+            if let Some(packages) = &parsed.pkg.install {
+                for pkg in packages {
+                    Command::new("sudo")
+                        .args([pm, install_prefix, pkg])
+                        .output()
+                        .expect("Can't install. An error occurred.");
+                }
+            } else {
+                eprintln!("No packages to install.");
+            }
+        }
+        None => {
+            eprintln!("No package manager found for {}", os_name);
+            return;
+        }
+    }
 }
