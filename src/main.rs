@@ -10,7 +10,7 @@ fn main() {
     let args: Vec<String> = std::env::args().collect();
 
     if args.len() < 2 {
-        eprintln!("Please enter a file name");
+        eprintln!("Please enter a file name.");
         return;
     }
 
@@ -29,43 +29,39 @@ fn main() {
             return;
         }
     };
+
     let os_name = os_get().os_type().to_string();
 
-    let is_include = parsed.sys.works_on.first() == Some(&"include".to_string());
-    let is_exclude = parsed.sys.works_on.first() == Some(&"exclude".to_string());
+    let works_on = &parsed.sys.works_on;
+    let is_include = works_on.first() == Some(&"include".to_string());
+    let is_exclude = works_on.first() == Some(&"exclude".to_string());
 
-    let mut is_allowed = parsed.sys.works_on.first() == Some(&"all".to_string());
-    let mut install_prefix = "install";
+    let mut is_allowed = works_on.first() == Some(&"all".to_string());
 
-    if parsed.sys.works_on.contains(&os_name) && !is_allowed {
-        if is_exclude {
-            is_allowed = false;
-        }
-        if is_include {
-            is_allowed = true;
-        }
-        if !is_exclude && !is_include {
-            is_allowed = true;
-        }
+    if works_on.contains(&os_name) && !is_allowed {
+        is_allowed = !is_exclude || is_include;
     }
 
     if !is_allowed {
-        eprintln!("This script does not work in your system. If you wrote an uncorrect name check https://crates.io/crates/os_info.");
+        eprintln!(
+            "This script does not support your system. If you wrote an incorrect name, check: https://crates.io/crates/os_info."
+        );
         return;
     }
 
-    println!("Activating the script");
+    println!("Activating the script...");
 
-    if os_name.clone() == String::from("Arch Linux") {
-        install_prefix = "-S";
-    }
-
-    match package_managers::get_package_manager(&os_name.as_str()) {
-        Some(pm) => {
+    match package_managers::get_package_manager(&os_name) {
+        Some((pm, install_prefix, auto_confirm)) => {
             if let Some(packages) = &parsed.pkg.install {
+                if packages.is_empty() {
+                    eprintln!("No packages to install.");
+                    return;
+                }
+
                 for pkg in packages {
                     let output = Command::new("sudo")
-                        .args([pm, install_prefix, "--noconfirm", pkg])
+                        .args([pm, install_prefix, auto_confirm, pkg])
                         .output();
 
                     match output {
@@ -78,7 +74,7 @@ fn main() {
                             }
                         }
                         Err(e) => {
-                            eprintln!("Failed to run command: {}", e);
+                            eprintln!("Failed to execute command: {}", e);
                         }
                     }
                 }
@@ -88,7 +84,7 @@ fn main() {
         }
         None => {
             eprintln!("No package manager found for {}", os_name);
-            return;
         }
     }
 }
+
