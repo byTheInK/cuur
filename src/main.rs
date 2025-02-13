@@ -41,6 +41,9 @@ fn main() {
         if is_include {
             is_allowed = true;
         }
+        if !is_exclude && !is_include {
+            is_allowed = true;
+        }
     }
 
     if !is_allowed {
