@@ -64,10 +64,23 @@ fn main() {
         Some(pm) => {
             if let Some(packages) = &parsed.pkg.install {
                 for pkg in packages {
-                    Command::new("sudo")
-                        .args([pm, install_prefix, pkg])
-                        .output()
-                        .expect("Can't install. An error occurred.");
+                    let output = Command::new("sudo")
+                        .args([pm, install_prefix, "--noconfirm", pkg])
+                        .output();
+
+                    match output {
+                        Ok(res) => {
+                            if !res.status.success() {
+                                eprintln!("Error installing package: {}", pkg);
+                                eprintln!("{}", String::from_utf8_lossy(&res.stderr));
+                            } else {
+                                println!("Package {} installed successfully.", pkg);
+                            }
+                        }
+                        Err(e) => {
+                            eprintln!("Failed to run command: {}", e);
+                        }
+                    }
                 }
             } else {
                 eprintln!("No packages to install.");
