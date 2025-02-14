@@ -14,4 +14,5 @@ pub struct TomlSystem {
 #[derive(Deserialize, Debug)]
 pub struct TomlPackages {
     pub install: Option<Vec<String>>,
+    pub remove: Option<Vec<String>>,
 }

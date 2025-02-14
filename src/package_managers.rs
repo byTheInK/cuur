@@ -1,6 +1,8 @@
 use std::collections::HashMap;
 
-pub fn get_package_manager(distro: &str) -> Option<(&'static str, &'static str, &'static str)> {
+pub fn get_package_manager_install(
+    distro: &str,
+) -> Option<(&'static str, &'static str, &'static str)> {
     let package_managers: HashMap<&str, (&str, &str, &str)> = HashMap::from([
         ("AIX", ("installp", "-a", "")),
         ("AlmaLinux", ("dnf", "install", "-y")),
@@ -54,3 +56,58 @@ pub fn get_package_manager(distro: &str) -> Option<(&'static str, &'static str, 
     package_managers.get(distro).copied()
 }
 
+pub fn get_package_manager_remove(
+    distro: &str,
+) -> Option<(&'static str, &'static str, &'static str)> {
+    let package_managers: HashMap<&str, (&str, &str, &str)> = HashMap::from([
+        ("AIX", ("installp", "-u", "")),
+        ("AlmaLinux", ("dnf", "remove", "-y")),
+        ("Alpaquita Linux", ("apk", "del", "--no-confirm")),
+        ("Alpine Linux", ("apk", "del", "--no-confirm")),
+        ("Amazon Linux AMI", ("yum", "remove", "-y")),
+        ("Android", ("pkg", "uninstall", "-y")),
+        ("Arch Linux", ("pacman", "-R", "--noconfirm")),
+        ("Artix Linux", ("pacman", "-R", "--noconfirm")),
+        ("CachyOS", ("pacman", "-R", "--noconfirm")),
+        ("CentOS", ("dnf", "remove", "-y")),
+        ("Debian", ("apt", "remove", "-y")),
+        ("DragonFly BSD", ("pkg", "delete", "-y")),
+        ("Emscripten", ("emsdk", "uninstall", "")),
+        ("EndeavourOS", ("pacman", "-R", "--noconfirm")),
+        ("Fedora", ("dnf", "remove", "-y")),
+        ("FreeBSD", ("pkg", "delete", "-y")),
+        ("Garuda Linux", ("pacman", "-R", "--noconfirm")),
+        ("Gentoo Linux", ("emerge", "--depclean", "")),
+        ("HardenedBSD", ("pkg", "delete", "-y")),
+        ("illumos", ("pkgin", "remove", "-y")),
+        ("Kali Linux", ("apt", "remove", "-y")),
+        ("Linux", ("varies", "", "")),
+        ("Mabox", ("pacman", "-R", "--noconfirm")),
+        ("Manjaro", ("pacman", "-R", "--noconfirm")),
+        ("Mariner", ("tdnf", "remove", "-y")),
+        ("MidnightBSD", ("mport", "remove", "")),
+        ("Mint", ("apt", "remove", "-y")),
+        ("NetBSD", ("pkgin", "remove", "-y")),
+        ("NixOS", ("nix-env", "-e", "")),
+        ("Nobara Linux", ("dnf", "remove", "-y")),
+        ("OpenBSD", ("pkg_delete", "", "")),
+        ("OpenCloudOS", ("dnf", "remove", "-y")),
+        ("openEuler (EulerOS)", ("dnf", "remove", "-y")),
+        ("openSUSE", ("zypper", "remove", "-y")),
+        ("Oracle Linux", ("dnf", "remove", "-y")),
+        ("Pop!_OS", ("apt", "remove", "-y")),
+        ("Raspberry Pi OS", ("apt", "remove", "-y")),
+        ("Red Hat Linux", ("rpm", "-e", "")),
+        ("Red Hat Enterprise Linux", ("dnf", "remove", "-y")),
+        ("Redox", ("pkg", "remove", "-y")),
+        ("Rocky Linux", ("dnf", "remove", "-y")),
+        ("Solus", ("eopkg", "remove", "-y")),
+        ("SUSE Linux Enterprise Server", ("zypper", "remove", "-y")),
+        ("Ubuntu", ("apt", "remove", "-y")),
+        ("Ultramarine Linux", ("dnf", "remove", "-y")),
+        ("Unknown", ("unknown", "", "")),
+        ("Void Linux", ("xbps-remove", "-R", "-y")),
+    ]);
+
+    package_managers.get(distro).copied()
+}

@@ -51,8 +51,8 @@ fn main() {
 
     println!("Activating the script...");
 
-    match package_managers::get_package_manager(&os_name) {
-        Some((pm, install_prefix, auto_confirm)) => {
+    match package_managers::get_package_manager_install(&os_name) {
+        Some((pm, prefix, auto_confirm)) => {
             if let Some(packages) = &parsed.pkg.install {
                 if packages.is_empty() {
                     eprintln!("No packages to install.");
@@ -61,7 +61,7 @@ fn main() {
 
                 for pkg in packages {
                     let output = Command::new("sudo")
-                        .args([pm, install_prefix, auto_confirm, pkg])
+                        .args([pm, prefix, auto_confirm, pkg])
                         .output();
 
                     match output {
@@ -86,5 +86,40 @@ fn main() {
             eprintln!("No package manager found for {}", os_name);
         }
     }
-}
 
+    match package_managers::get_package_manager_remove(&os_name) {
+        Some((pm, prefix, auto_confirm)) => {
+            if let Some(packages) = &parsed.pkg.remove {
+                if packages.is_empty() {
+                    eprintln!("No packages to install.");
+                    return;
+                }
+
+                for pkg in packages {
+                    let output = Command::new("sudo")
+                        .args([pm, prefix, auto_confirm, pkg])
+                        .output();
+
+                    match output {
+                        Ok(res) => {
+                            if !res.status.success() {
+                                eprintln!("Error removing package: {}", pkg);
+                                eprintln!("{}", String::from_utf8_lossy(&res.stderr));
+                            } else {
+                                println!("Removed package {} successfully.", pkg);
+                            }
+                        }
+                        Err(e) => {
+                            eprintln!("Failed to execute command: {}", e);
+                        }
+                    }
+                }
+            } else {
+                eprintln!("No packages to remove.");
+            }
+        }
+        None => {
+            eprintln!("No package manager found for {}", os_name);
+        }
+    }
+}
