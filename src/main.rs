@@ -53,16 +53,11 @@ fn main() {
 
     println!("Activating the script...");
 
-    dbg!(&parsed);
     match package_managers::get_package_manager_install(&os_name) {
         Some((mut pm, prefix, auto_confirm)) => {
-            dbg!(default_aur.unwrap_or(false));
             if default_aur.unwrap_or(false) {
                 pm = "yay";
-                dbg!(pm);
             }
-
-            dbg!(pm);
 
             if let Some(packages) = &parsed.pkg.install {
                 if packages.is_empty() {
