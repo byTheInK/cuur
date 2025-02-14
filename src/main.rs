@@ -32,9 +32,8 @@ fn main() {
 
     let os_name = os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;
-    let is_include = works_on.first() == Some(&"include".to_string());
     let is_exclude = works_on.first() == Some(&"exclude".to_string());
-    let mut is_allowed = works_on.first() == Some(&"all".to_string())
+    let is_allowed = works_on.first() == Some(&"all".to_string())
         || (works_on.contains(&os_name) && !is_exclude);
 
     if !is_allowed {
