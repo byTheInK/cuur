@@ -8,6 +8,7 @@ pub struct Cuur {
 
 #[derive(Deserialize, Debug)]
 pub struct TomlSystem {
+    pub deafult_aur: Option<bool>,
     pub works_on: Vec<String>,
 }
 

@@ -38,6 +38,8 @@ fn main() {
 
     let mut is_allowed = works_on.first() == Some(&"all".to_string());
 
+    let default_aur = &parsed.sys.deafult_aur;
+
     if works_on.contains(&os_name) && !is_allowed {
         is_allowed = !is_exclude || is_include;
     }
@@ -52,7 +54,11 @@ fn main() {
     println!("Activating the script...");
 
     match package_managers::get_package_manager_install(&os_name) {
-        Some((pm, prefix, auto_confirm)) => {
+        Some((mut pm, prefix, auto_confirm)) => {
+            if default_aur == &Some(true) {
+                pm = "yay";
+            }
+
             if let Some(packages) = &parsed.pkg.install {
                 if packages.is_empty() {
                     eprintln!("No packages to install.");
@@ -88,7 +94,11 @@ fn main() {
     }
 
     match package_managers::get_package_manager_remove(&os_name) {
-        Some((pm, prefix, auto_confirm)) => {
+        Some((mut pm, prefix, auto_confirm)) => {
+            if default_aur == &Some(true) {
+                pm = "yay";
+            }
+
             if let Some(packages) = &parsed.pkg.remove {
                 if packages.is_empty() {
                     eprintln!("No packages to install.");
