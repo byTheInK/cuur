@@ -31,18 +31,11 @@ fn main() {
     };
 
     let os_name = os_get().os_type().to_string();
-
     let works_on = &parsed.sys.works_on;
     let is_include = works_on.first() == Some(&"include".to_string());
     let is_exclude = works_on.first() == Some(&"exclude".to_string());
-
-    let mut is_allowed = works_on.first() == Some(&"all".to_string());
-
-    let default_aur = &parsed.sys.default_aur;
-
-    if works_on.contains(&os_name) && !is_allowed {
-        is_allowed = !is_exclude || is_include;
-    }
+    let mut is_allowed = works_on.first() == Some(&"all".to_string())
+        || (works_on.contains(&os_name) && !is_exclude);
 
     if !is_allowed {
         eprintln!(
@@ -52,84 +45,71 @@ fn main() {
     }
 
     println!("Activating the script...");
+    let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
-    match package_managers::get_package_manager_install(&os_name) {
-        Some((mut pm, prefix, auto_confirm)) => {
-            if default_aur.unwrap_or(false) {
-                pm = "yay";
-            }
+    if let Some((mut pm, prefix, auto_confirm)) =
+        package_managers::get_package_manager_install(&os_name)
+    {
+        if default_aur {
+            pm = "yay";
+        }
 
-            if let Some(packages) = &parsed.pkg.install {
-                if packages.is_empty() {
-                    eprintln!("No packages to install.");
-                    return;
-                }
-
+        if let Some(packages) = &parsed.pkg.install {
+            if packages.is_empty() {
+                eprintln!("No packages to install.");
+            } else {
                 for pkg in packages {
-                    let output = Command::new("sudo")
-                        .args([pm, prefix, auto_confirm, pkg])
-                        .output();
+                    let output = Command::new(pm).args([prefix, auto_confirm, pkg]).output();
 
                     match output {
+                        Ok(res) if res.status.success() => {
+                            println!("Package {} installed successfully.", pkg);
+                        }
                         Ok(res) => {
-                            if !res.status.success() {
-                                eprintln!("Error installing package: {}", pkg);
-                                eprintln!("{}", String::from_utf8_lossy(&res.stderr));
-                            } else {
-                                println!("Package {} installed successfully.", pkg);
-                            }
+                            eprintln!("Error installing package: {}", pkg);
+                            eprintln!("{}", String::from_utf8_lossy(&res.stderr));
                         }
                         Err(e) => {
                             eprintln!("Failed to execute command: {}", e);
                         }
                     }
                 }
-            } else {
-                eprintln!("No packages to install.");
             }
         }
-        None => {
-            eprintln!("No package manager found for {}", os_name);
-        }
+    } else {
+        eprintln!("No package manager found for {}", os_name);
     }
 
-    match package_managers::get_package_manager_remove(&os_name) {
-        Some((mut pm, prefix, auto_confirm)) => {
-            if default_aur.unwrap_or(false) {
-                pm = "yay";
-            }
+    if let Some((mut pm, prefix, auto_confirm)) =
+        package_managers::get_package_manager_remove(&os_name)
+    {
+        if default_aur {
+            pm = "yay";
+        }
 
-            if let Some(packages) = &parsed.pkg.remove {
-                if packages.is_empty() {
-                    eprintln!("No packages to install.");
-                    return;
-                }
-
+        if let Some(packages) = &parsed.pkg.remove {
+            if packages.is_empty() {
+                eprintln!("No packages to remove.");
+            } else {
                 for pkg in packages {
-                    let output = Command::new("sudo")
-                        .args([pm, prefix, auto_confirm, pkg])
-                        .output();
+                    let output = Command::new(pm).args([prefix, auto_confirm, pkg]).output();
 
                     match output {
+                        Ok(res) if res.status.success() => {
+                            println!("Removed package {} successfully.", pkg);
+                        }
                         Ok(res) => {
-                            if !res.status.success() {
-                                eprintln!("Error removing package: {}", pkg);
-                                eprintln!("{}", String::from_utf8_lossy(&res.stderr));
-                            } else {
-                                println!("Removed package {} successfully.", pkg);
-                            }
+                            eprintln!("Error removing package: {}", pkg);
+                            eprintln!("{}", String::from_utf8_lossy(&res.stderr));
                         }
                         Err(e) => {
                             eprintln!("Failed to execute command: {}", e);
                         }
                     }
                 }
-            } else {
-                eprintln!("No packages to remove.");
             }
         }
-        None => {
-            eprintln!("No package manager found for {}", os_name);
-        }
+    } else {
+        eprintln!("No package manager found for {}", os_name);
     }
 }
