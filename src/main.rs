@@ -66,12 +66,7 @@ fn handle_package_installation(
     }
 }
 
-fn handle_package_removal(
-    os_name: &str,
-    aur_helper: &str,
-    default_aur: bool,
-    remove_packages: Option<Vec<String>>,
-) {
+fn handle_package_removal(os_name: &str, default_aur: bool, remove_packages: Option<Vec<String>>) {
     if let Some((mut pm, prefix, auto_confirm)) =
         package_managers::get_package_manager_remove(os_name)
     {
