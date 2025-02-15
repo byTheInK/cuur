@@ -49,6 +49,31 @@ fn main() {
         return;
     }
 
+    if let Some(ref startup) = parsed.startup {
+        if let Some(ref exec) = startup.exec {
+            if exec.is_empty() {
+                println!("Nothing to execute.");
+            }
+            for exec_command in exec {
+                let full_chunk: Vec<&str> = exec_command.split_whitespace().collect();
+
+                let output = Command::new(full_chunk[0]).args(&full_chunk[1..]).output();
+
+                match output {
+                    Ok(res) if res.status.success() => {
+                        println!("Executed startup command");
+                    }
+                    Ok(res) => {
+                        eprintln!("{}", String::from_utf8_lossy(&res.stderr));
+                    }
+                    Err(e) => {
+                        eprintln!("Failed to execute command: {}", e);
+                    }
+                }
+            }
+        }
+    }
+
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 

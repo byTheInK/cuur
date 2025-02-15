@@ -4,6 +4,7 @@ use serde::Deserialize;
 pub struct Cuur {
     pub sys: TomlSystem,
     pub pkg: TomlPackages,
+    pub startup: Option<TomlStartup>,
 }
 
 #[derive(Deserialize, Debug)]
@@ -17,4 +18,9 @@ pub struct TomlSystem {
 pub struct TomlPackages {
     pub install: Option<Vec<String>>,
     pub remove: Option<Vec<String>>,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TomlStartup {
+    pub exec: Option<Vec<String>>,
 }
