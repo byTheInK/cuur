@@ -36,6 +36,12 @@ fn main() {
     let is_allowed = works_on.first() == Some(&"all".to_string())
         || (works_on.contains(&os_name) && !is_exclude);
 
+    let aur_helper = if let Some(ref helper) = parsed.sys.aur_helper {
+        helper.clone()
+    } else {
+        String::from("yay")
+    };
+
     if !is_allowed {
         eprintln!(
             "This script does not support your system. If you wrote an incorrect name, check: https://crates.io/crates/os_info."
@@ -50,7 +56,7 @@ fn main() {
         package_managers::get_package_manager_install(&os_name)
     {
         if default_aur {
-            pm = "yay";
+            pm = aur_helper.as_str();
         }
 
         if let Some(packages) = &parsed.pkg.install {
