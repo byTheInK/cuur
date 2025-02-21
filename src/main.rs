@@ -44,7 +44,9 @@ fn handle_package_installation(
                 eprintln!("No packages to install.");
             } else {
                 for pkg in packages {
-                    let output = Command::new(pm).args([prefix, auto_confirm, &pkg]).output();
+                    let output = Command::new("sudo")
+                        .args([pm, prefix, auto_confirm, &pkg])
+                        .output();
 
                     match output {
                         Ok(res) if res.status.success() => {
@@ -159,5 +161,5 @@ fn main() {
 
     handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install);
 
-    handle_package_removal(&os_name, &aur_helper, default_aur, parsed.pkg.remove);
+    handle_package_removal(&os_name, default_aur, parsed.pkg.remove);
 }
