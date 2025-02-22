@@ -11,3 +11,12 @@ repository = "https://github.com/byTheInK/cuur"
 toml = "0.8"
 serde = {version="1.0", features=["derive"]}
 os_info = "3"
+
+[package.metadata.rpm]
+package = "cuur"
+
+[package.metadata.rpm.cargo]
+buildflags = ["--release"]
+
+[package.metadata.rpm.targets]
+cuur = { path = "/usr/bin/cuur" }
