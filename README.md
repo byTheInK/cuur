@@ -14,17 +14,17 @@ source "$HOME/.cargo/env"
 
 ### Debian based systems:
 ```bash
-sudo apt install cargo git
+sudo apt install cargo git rpm
 ```
 
 ### RHEL based systems:
 ```bash
-sudo dnf install cargo git
+sudo dnf install cargo git rpm-build
 ```
 
 ### Arch based systems:
 ```bash
-sudo pacman -S cargo git
+sudo pacman -S cargo git rpm
 ```
 
 Now, we can clone the repository.
@@ -48,7 +48,7 @@ cargo build
 
 ### Debian package
 ```bash
-cargo deb
+cargo rpm build
 ```
 You can find the package in the `target/debian/` directory. To install we can use the command below.
 
@@ -56,6 +56,19 @@ You can find the package in the `target/debian/` directory. To install we can us
 cd target/debian/
 sudo dpkg -i *.deb
 ```
+
+### Rpm package
+```bash
+cargo rpm build
+```
+You can find the package in the `target/release/rpmbuild/RPMS/x86_64` directory. To install we can use the command below.
+
+```bash
+cd target/release/rpmbuild/RPMS/x86_64
+sudo rpm -i target/release/rpmbuild/RPMS/x86_64/*.rpm
+```
+
+
 
 # Examples
 
