@@ -33,12 +33,12 @@ git clone https://github.com/byTheInK/cuur
 cd cuur
 ```
 
-Let's install the building tools.
+Let's install the building tools. Pick the tool or tools you want.
 ```bash
-cargo install cargo-deb
-cargo install cargo-rpm
-cargo install cargo-generate
-cargo install cargo-bundle
+cargo install cargo-deb # Debian
+cargo install cargo-rpm # RHEL
+cargo install cargo-generate # Arch
+cargo install cargo-bundle # AppImage
 ```
 
 Now, we can build the binary with Cargo.
