@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use std::collections::HashMap;
 
 #[derive(Deserialize, Debug)]
 pub struct Cuur {
@@ -11,6 +12,7 @@ pub struct Cuur {
 pub struct TomlSystem {
     pub default_aur: Option<bool>,
     pub aur_helper: Option<String>,
+    pub pkg_name: Option<HashMap<String, HashMap<String, String>>>,
     pub works_on: Vec<String>,
 }
 

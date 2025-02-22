@@ -1,4 +1,5 @@
 use os_info::get as os_get;
+use std::collections::HashMap;
 use std::fs;
 use std::process::Command;
 use toml;
@@ -32,6 +33,7 @@ fn handle_package_installation(
     aur_helper: &str,
     default_aur: bool,
     install_packages: Option<Vec<String>>,
+    pkg_name: Option<HashMap<String, HashMap<String, String>>>,
 ) {
     if let Some((mut pm, prefix, auto_confirm)) =
         package_managers::get_package_manager_install(os_name)
@@ -44,7 +46,15 @@ fn handle_package_installation(
             if packages.is_empty() {
                 eprintln!("No packages to install.");
             } else {
-                for pkg in packages {
+                for mut pkg in packages {
+                    if let Some(ref pkg_map) = pkg_name {
+                        if let Some(replacements) = pkg_map.get(os_name) {
+                            if let Some(new_pkg) = replacements.get(&pkg) {
+                                pkg = new_pkg.clone();
+                            }
+                        }
+                    }
+
                     let output = Command::new("sudo")
                         .args([pm, prefix, auto_confirm, &pkg])
                         .output();
@@ -156,7 +166,7 @@ fn main() {
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
-    handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install);
+    handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name);
 
     handle_package_removal(&os_name, default_aur, parsed.pkg.remove);
-}
+}sss
