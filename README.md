@@ -41,11 +41,6 @@ cargo install cargo-generate # Arch
 cargo install cargo-bundle # AppImage
 ```
 
-Now, we can build the binary with Cargo.
-```bash
-cargo build
-```
-
 ### Debian package
 ```bash
 cargo rpm build
@@ -67,7 +62,6 @@ You can find the package in the `target/release/rpmbuild/RPMS/x86_64` directory.
 cd target/release/rpmbuild/RPMS/x86_64
 sudo rpm -i target/release/rpmbuild/RPMS/x86_64/*.rpm
 ```
-
 
 
 # Examples
