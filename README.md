@@ -2,6 +2,7 @@
 Cuur is an alternative to Nix but the extra features is instead of the Nix package manager it uses the system package manager. You can also use AUR and AUR helpers.
 
 # Installation
+You can get Cuur from [here](https://github.com/byTheInK/cuur/releases).
 
 ## Building from source
 First of all you have to ensure you have the necessary packages. Make sure you have curl installed.
