@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="24.265858mm"
+   height="24.314306mm"
+   viewBox="0 0 24.265858 24.314306"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="cuur_inkscape.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:document-units="mm"
+     inkscape:zoom="8"
+     inkscape:cx="43.125"
+     inkscape:cy="71.9375"
+     inkscape:window-width="1878"
+     inkscape:window-height="996"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Katman 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-48.2336,-85.440926)">
+    <circle
+       style="fill:none;fill-opacity:1;stroke:#7fff2a;stroke-width:1.365;stroke-dasharray:none"
+       id="path3"
+       cx="56.887947"
+       cy="94.411385"
+       r="7.9718475" />
+    <rect
+       style="fill:#7fff2a;fill-opacity:1;stroke:none;stroke-width:1.35182;stroke-dasharray:none"
+       id="rect3"
+       width="7.5643306"
+       height="2.5972853"
+       x="64.803856"
+       y="93.468666" />
+    <rect
+       style="fill:#44aa00;fill-opacity:1;stroke:none;stroke-width:1.365;stroke-dasharray:none"
+       id="rect4"
+       width="0.030139308"
+       height="0.12055723"
+       x="63.563805"
+       y="97.289688" />
+    <rect
+       style="fill:#7fff2a;fill-opacity:1;stroke:none;stroke-width:1.365;stroke-dasharray:none"
+       id="rect5"
+       width="2.5249951"
+       height="7.574985"
+       x="54.888752"
+       y="102.12848" />
+    <path
+       style="fill:#b3ff80;fill-opacity:1;stroke:none;stroke-width:2.004;stroke-dasharray:none"
+       d="m 54.888751,109.70346 c 0,0 17.610707,1.82762 17.610707,-16.234794 0,-18.062416 0,0 0,0 0,0 -2.674039,16.234794 -17.610707,16.234794 z"
+       id="path7"
+       sodipodi:nodetypes="cscc" />
+    <rect
+       style="fill:#b3ff80;fill-opacity:1;stroke:none;stroke-width:2.004;stroke-dasharray:none"
+       id="rect8"
+       width="0.16939394"
+       height="0.65488535"
+       x="72.322197"
+       y="93.468666" />
+    <rect
+       style="fill:#b3ff80;fill-opacity:1;stroke:none;stroke-width:2.004;stroke-dasharray:none"
+       id="rect9"
+       width="0.02946288"
+       height="0.050173443"
+       x="72.469994"
+       y="93.468666" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12.2531px;font-family:'Mononoki Nerd Font';-inkscape-font-specification:'Mononoki Nerd Font';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#7fff2a;fill-opacity:1;stroke:none;stroke-width:7.73396;stroke-dasharray:none"
+       x="53.423813"
+       y="98.599457"
+       id="text9"><tspan
+         sodipodi:role="line"
+         id="tspan9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Mononoki Nerd Font';-inkscape-font-specification:'Mononoki Nerd Font';fill:#7fff2a;stroke-width:7.73396"
+         x="53.423813"
+         y="98.599457">C</tspan></text>
+    <path
+       style="fill:#7fff2a;fill-opacity:1;stroke:none;stroke-width:2.00698;stroke-dasharray:none"
+       d="m 72.364455,94.125498 0.13127,-0.656832 h -0.208687 l -0.03362,0.67841 0.06504,0.01905 z"
+       id="path9" />
+  </g>
+</svg>
