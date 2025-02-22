@@ -169,4 +169,4 @@ fn main() {
     handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name);
 
     handle_package_removal(&os_name, default_aur, parsed.pkg.remove);
-}sss
+}
