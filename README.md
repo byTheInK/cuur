@@ -63,6 +63,12 @@ cd target/release/rpmbuild/RPMS/x86_64
 sudo rpm -i target/release/rpmbuild/RPMS/x86_64/*.rpm
 ```
 
+### Tarball
+```bash
+cargo build --release
+tar -czvf cuur.tar.gz -C target/release cuur
+```
+If you look at your directory, you can see `cuur.tar.gz`.
 
 # Examples
 
