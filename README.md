@@ -14,17 +14,17 @@ source "$HOME/.cargo/env"
 
 ### Debian based systems:
 ```bash
-sudo apt install cargo git rpm
+sudo apt install cargo git rpm python-pipx
 ```
 
 ### RHEL based systems:
 ```bash
-sudo dnf install cargo git rpm-build
+sudo dnf install cargo git rpm-build python-pipx
 ```
 
 ### Arch based systems:
 ```bash
-sudo pacman -S cargo git rpm
+sudo pacman -S cargo git rpm python-pipx base base-devel
 ```
 
 Now, we can clone the repository.
@@ -56,7 +56,7 @@ sudo dpkg -i *.deb
 ```bash
 cargo rpm build
 ```
-You can find the package in the `target/release/rpmbuild/RPMS/x86_64` directory. To install we can use the command below.
+You can find the package in the `target/release/rpmbuild/RPMS/x86_64` directory. To install you can use the command below.
 
 ```bash
 cd target/release/rpmbuild/RPMS/x86_64
@@ -70,6 +70,15 @@ tar -czvf cuur.tar.gz -C target/release cuur
 ```
 If you look at your directory, you can see `cuur.tar.gz`.
 
+### Arch
+```bash
+cargo aur
+```
+You can find the packages in `target/cargo-aur/`. If you look at that directory you can see the `PKGBUILD` file. To install you can use the command below.
+```bash
+cd target/cargo-aur
+makepkg -si
+```
 # Examples
 
 Install `vim` and `htop` in all of the distributions.
