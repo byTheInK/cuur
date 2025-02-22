@@ -4,7 +4,13 @@ Cuur is an alternative to Nix but the extra features is instead of the Nix packa
 # Installation
 
 ## Building from source
-First of all you have to ensure you have the necessary packages.
+First of all you have to ensure you have the necessary packages. Make sure you have curl installed.
+
+### Rust
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+```
 
 ### Debian based systems:
 ```bash
@@ -40,6 +46,16 @@ Now, we can build the binary with Cargo.
 cargo build
 ```
 
+### Debian package
+```bash
+cargo deb
+```
+You can find the package in the `target/debian/` directory. To install we can use the command below.
+
+```bash
+cd target/debian/
+sudo dpkg -i *.deb
+```
 
 # Examples
 
