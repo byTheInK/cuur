@@ -21,6 +21,26 @@ sudo dnf install cargo rustup git
 sudo pacman -S cargo rustup git
 ```
 
+Now, we can clone the repository.
+```bash
+git clone https://github.com/byTheInK/cuur
+cd cuur
+```
+
+Let's install the building tools.
+```bash
+cargo install cargo-deb
+cargo install cargo-rpm
+cargo install cargo-generate
+cargo install cargo-bundle
+```
+
+Now, we can build the binary with Cargo.
+```bash
+cargo build
+```
+
+
 # Examples
 
 Install `vim` and `htop` in all of the distributions.
