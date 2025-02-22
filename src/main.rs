@@ -148,11 +148,7 @@ fn main() {
 
     if let Some(ref startup) = parsed.startup {
         if let Some(ref exec) = startup.exec {
-            if exec.is_empty() {
-                println!("Nothing to execute.");
-            } else {
-                execute_commands(exec);
-            }
+            execute_commands(exec);
         }
     }
 
