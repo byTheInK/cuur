@@ -37,7 +37,7 @@ Let's install the building tools. Pick the tool or tools you want.
 ```bash
 cargo install cargo-deb # Debian
 cargo install cargo-rpm # RHEL
-cargo install cargo-generate # Arch
+cargo install cargo-aur # Arch
 cargo install cargo-bundle # AppImage
 ```
 
