@@ -3,9 +3,7 @@ default_aur = true
 aur_helper = "yay"
 works_on = ["all"]
 
-[pkg]
-install = ["package1", "package2"]
-remove = ["package3"]
-
 [startup]
-exec = ["echo test > /home/efe/test.txt"]
+exec = ["echo Hello! | tee /home/efe/test.txt"]
+
+[pkg]

@@ -8,9 +8,10 @@ pub mod structs;
 
 fn execute_commands(exec_commands: &[String]) {
     for exec_command in exec_commands {
-        let full_chunk: Vec<&str> = exec_command.split_whitespace().collect();
-
-        let output = Command::new(full_chunk[0]).args(&full_chunk[1..]).output();
+        let output = Command::new("sh")
+            .arg("-c")
+            .arg(exec_command)
+            .output();
 
         match output {
             Ok(res) if res.status.success() => {
