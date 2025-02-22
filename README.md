@@ -8,17 +8,17 @@ First of all you have to ensure you have the necessary packages.
 
 ### Debian based systems:
 ```bash
-sudo apt install cargo rustup git
+sudo apt install cargo git
 ```
 
 ### RHEL based systems:
 ```bash
-sudo dnf install cargo rustup git
+sudo dnf install cargo git
 ```
 
 ### Arch based systems:
 ```bash
-sudo pacman -S cargo rustup git
+sudo pacman -S cargo git
 ```
 
 Now, we can clone the repository.
