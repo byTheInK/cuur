@@ -3,7 +3,7 @@ set -e
 
 echo "Cleaning up old builds..."
 rm -rf build/
-mkdir -p build/rpm build/deb build/aur build/tarball build/windows
+mkdir -p build/rpm build/deb build/aur build/tarball build/windows final_build_dir
 
 echo "Building .rpm"
 cargo rpm build
@@ -31,4 +31,10 @@ echo "Successfully built all of the packages"
 
 echo "Deploying..."
 sleep 1
-echo "All build files are now in the respective directories"
+
+echo "Copying packages to final directory..."
+cp -r build/rpm/* final_build_dir/ 2>/dev/null || true
+cp -r build/deb/* final_build_dir/ 2>/dev/null || true
+cp -r build/aur/* final_build_dir/ 2>/dev/null || true
+cp -r build/tarball/* final_build_dir/ 2>/dev/null || true
+cp -r build/windows/* final_build_dir/ 2>/dev/null || true
