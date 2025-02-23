@@ -2,5 +2,5 @@
 works_on = ["all"]
 
 [pkg]
-install = ["vim", "htop"]
+install = ["vim", "neofetch", "htop"]
 
