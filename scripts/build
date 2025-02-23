@@ -3,7 +3,7 @@ set -e
 
 echo "Cleaning up old builds..."
 rm -rf build/
-mkdir -p build/rpm build/deb build/aur build/tarball build/windows final_build_dir
+mkdir -p build/rpm build/deb build/aur build/tarball build/windows final_build
 
 echo "Building .rpm"
 cargo rpm build
