@@ -15,7 +15,9 @@ mv target/debian/* build/deb/ 2>/dev/null || true
 
 echo "Building AUR package"
 cargo aur
-mv target/cargo-aur/* build/aur/ 2>/dev/null || true
+
+AUR_PACKAGE_DIR=$(find target/cargo-aur -type d -name "*.pkg.tar.zst" -exec dirname {} \;)
+tar -czvf build/aur/aur_package.tar.gz -C "$AUR_PACKAGE_DIR" . 2>/dev/null || true
 
 echo "Building tarball"
 cargo build --release
