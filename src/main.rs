@@ -34,10 +34,19 @@ fn handle_package_installation(
     default_aur: bool,
     install_packages: Option<Vec<String>>,
     pkg_name: Option<HashMap<String, HashMap<String, String>>>,
+    pkg_manager: Option<HashMap<String, HashMap<String, String>>>,
 ) {
     if let Some((mut pm, prefix, auto_confirm)) =
         package_managers::get_package_manager_install(os_name)
     {
+        if let Some(ref pkg_manager_map) = pkg_manager {
+            if let Some(replacement) = pkg_manager_map.get(os_name) {
+                if let Some(new_pm) = replacement.get("install") {
+                    pm = new_pm;
+                }
+            }
+        }
+
         if default_aur {
             pm = aur_helper;
         }
@@ -47,6 +56,7 @@ fn handle_package_installation(
                 eprintln!("No packages to install.");
             } else {
                 for mut pkg in packages {
+                    // Check for pkg_name replacement
                     if let Some(ref pkg_map) = pkg_name {
                         if let Some(replacements) = pkg_map.get(os_name) {
                             if let Some(new_pkg) = replacements.get(&pkg) {
@@ -79,15 +89,28 @@ fn handle_package_installation(
     }
 }
 
+
+
+
 fn handle_package_removal(
     os_name: &str,
     default_aur: bool,
     remove_packages: Option<Vec<String>>,
     pkg_name: Option<HashMap<String, HashMap<String, String>>>,
+    pkg_manager: Option<HashMap<String, HashMap<String, String>>>,
 ) {
     if let Some((mut pm, prefix, auto_confirm)) =
         package_managers::get_package_manager_remove(os_name)
     {
+        // Check for pkg_manager replacement
+        if let Some(ref pkg_manager_map) = pkg_manager {
+            if let Some(replacement) = pkg_manager_map.get(os_name) {
+                if let Some(new_pm) = replacement.get("remove") {
+                    pm = new_pm; // Replace the package manager for removal
+                }
+            }
+        }
+
         if default_aur {
             pm = "yay"; // Using yay as the default AUR helper
         }
@@ -97,6 +120,7 @@ fn handle_package_removal(
                 eprintln!("No packages to remove.");
             } else {
                 for mut pkg in packages {
+                    // Check for pkg_name replacement
                     if let Some(ref pkg_map) = pkg_name {
                         if let Some(replacements) = pkg_map.get(os_name) {
                             if let Some(new_pkg) = replacements.get(&pkg) {
@@ -105,6 +129,7 @@ fn handle_package_removal(
                         }
                     }
 
+                    // Run the removal command
                     let output = Command::new(pm)
                         .args([prefix, auto_confirm, &pkg])
                         .output();
@@ -128,6 +153,7 @@ fn handle_package_removal(
         eprintln!("No package manager found for {}", os_name);
     }
 }
+
 
 
 fn main() {
@@ -182,7 +208,7 @@ fn main() {
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
-    handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name.clone());
+    handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone());
 
-    handle_package_removal(&os_name, default_aur, parsed.pkg.remove, parsed.sys.pkg_name.clone());
+    handle_package_removal(&os_name, default_aur, parsed.pkg.remove, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone());
 }
