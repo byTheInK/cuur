@@ -51,6 +51,7 @@ pub fn get_package_manager_install(
         ("Ultramarine Linux", ("dnf", "install", "-y")),
         ("Unknown", ("unknown", "", "")),
         ("Void Linux", ("xbps-install", "-S", "-y")),
+        ("Windows", ("winget", "install", "--accept-source-agreements --accept-package-agreements")),1
     ]);
 
     package_managers.get(distro).copied()
