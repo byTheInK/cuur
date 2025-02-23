@@ -1,32 +1,32 @@
 #!/bin/bash
 set -e
 
-cargo build
-mkdir -p build
+echo "Cleaning up old builds..."
+rm -rf build/
+mkdir -p build/rpm build/deb build/aur build/tarball build/windows
 
 echo "Building .rpm"
 cargo rpm build
+mv target/release/rpmbuild/RPMS/x86_64/* build/rpm/ 2>/dev/null || true
 
 echo "Building .deb"
 cargo deb
+mv target/debian/* build/deb/ 2>/dev/null || true
 
 echo "Building AUR package"
 cargo aur
+mv target/cargo-aur/* build/aur/ 2>/dev/null || true
 
 echo "Building tarball"
 cargo build --release
-tar -czvf cuur.tar.gz -C target/release cuur
+tar -czvf build/tarball/cuur.tar.gz -C target/release cuur 2>/dev/null || true
 
 echo "Building Windows package"
 cargo build --target x86_64-pc-windows-gnu --release
+mv target/x86_64-pc-windows-gnu/release/*.exe build/windows/ 2>/dev/null || true
 
 echo "Successfully built all of the packages"
+
+echo "Deploying..."
 sleep 1
-
-echo "Deploying"
-
-mv target/release/rpmbuild/RPMS/x86_64/* build/ 2>/dev/null || true
-mv target/cargo-aur/* build/ 2>/dev/null || true
-mv target/debian/* build/ 2>/dev/null || true
-mv target/release/*.tar.gz build/ 2>/dev/null || true
-mv target/x86_64-pc-windows-gnu/release/*.exe build/ 2>/dev/null || true
+echo "All build files are now in the respective directories"
