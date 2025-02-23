@@ -1,5 +1,5 @@
 [sys]
-works_on = ["include", "Ubuntu", "Arch Linux"]
+works_on = ["all"]
 
 [pkg]
 install = ["vim", "htop"]
