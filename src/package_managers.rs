@@ -52,6 +52,7 @@ pub fn get_package_manager_install(
         ("Unknown", ("unknown", "", "")),
         ("Void Linux", ("xbps-install", "-S", "-y")),
         ("Windows", ("winget", "install", "--accept-source-agreements --accept-package-agreements")),
+        ("macOS", ("brew", "install", "--yes")),
     ]);
 
     package_managers.get(distro).copied()
