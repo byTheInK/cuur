@@ -79,20 +79,35 @@ fn handle_package_installation(
     }
 }
 
-fn handle_package_removal(os_name: &str, default_aur: bool, remove_packages: Option<Vec<String>>) {
+fn handle_package_removal(
+    os_name: &str,
+    default_aur: bool,
+    remove_packages: Option<Vec<String>>,
+    pkg_name: Option<HashMap<String, HashMap<String, String>>>,
+) {
     if let Some((mut pm, prefix, auto_confirm)) =
         package_managers::get_package_manager_remove(os_name)
     {
         if default_aur {
-            pm = "yay";
+            pm = "yay"; // Using yay as the default AUR helper
         }
 
         if let Some(packages) = remove_packages {
             if packages.is_empty() {
                 eprintln!("No packages to remove.");
             } else {
-                for pkg in packages {
-                    let output = Command::new(pm).args([prefix, auto_confirm, &pkg]).output();
+                for mut pkg in packages {
+                    if let Some(ref pkg_map) = pkg_name {
+                        if let Some(replacements) = pkg_map.get(os_name) {
+                            if let Some(new_pkg) = replacements.get(&pkg) {
+                                pkg = new_pkg.clone();
+                            }
+                        }
+                    }
+
+                    let output = Command::new(pm)
+                        .args([prefix, auto_confirm, &pkg])
+                        .output();
 
                     match output {
                         Ok(res) if res.status.success() => {
@@ -113,6 +128,7 @@ fn handle_package_removal(os_name: &str, default_aur: bool, remove_packages: Opt
         eprintln!("No package manager found for {}", os_name);
     }
 }
+
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -166,7 +182,7 @@ fn main() {
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
-    handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name);
+    handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name.clone());
 
-    handle_package_removal(&os_name, default_aur, parsed.pkg.remove);
+    handle_package_removal(&os_name, default_aur, parsed.pkg.remove, parsed.sys.pkg_name.clone());
 }
