@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+cargo build
+mkdir -p build
+
+echo "Building .rpm"
+cargo rpm build
+
+echo "Building .deb"
+cargo deb
+
+echo "Building AUR package"
+cargo aur
+
+echo "Building tarball"
+cargo build --release
+tar -czvf cuur.tar.gz -C target/release cuur
+
+echo "Building Windows package"
+cargo build --target x86_64-pc-windows-gnu --release
+
+echo "Successfully built all of the packages"
+sleep 1
+
+echo "Deploying"
+
+mv target/release/rpmbuild/RPMS/x86_64/* build/ 2>/dev/null || true
+mv target/cargo-aur/* build/ 2>/dev/null || true
+mv target/debian/* build/ 2>/dev/null || true
+mv target/release/*.tar.gz build/ 2>/dev/null || true
+mv target/x86_64-pc-windows-gnu/release/*.exe build/ 2>/dev/null || true
