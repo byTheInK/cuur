@@ -94,7 +94,7 @@ pub fn get_package_manager_remove(
         ("Nobara Linux", ("dnf", "remove", "-y")),
         ("OpenBSD", ("pkg_delete", "", "")),
         ("OpenCloudOS", ("dnf", "remove", "-y")),
-        ("openEuler (EulerOS)", ("dnf", "remove", "-y")),
+        ("openEuler", ("dnf", "remove", "-y")),
         ("openSUSE", ("zypper", "remove", "-y")),
         ("Oracle Linux", ("dnf", "remove", "-y")),
         ("Pop!_OS", ("apt", "remove", "-y")),
