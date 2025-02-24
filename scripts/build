@@ -3,7 +3,7 @@ set -e
 
 echo "Cleaning up old builds..."
 rm -rf build/
-mkdir -p build/rpm build/deb build/aur build/tarball build/windows final_build
+mkdir -p build/rpm build/deb build/aur build/tarball build/windows bin
 
 echo "Building .rpm"
 cargo rpm build
@@ -32,9 +32,36 @@ echo "Successfully built all of the packages"
 echo "Deploying..."
 sleep 1
 
-echo "Copying packages to final directory..."
-cp -r build/rpm/* final_build/ 2>/dev/null || true
-cp -r build/deb/* final_build/ 2>/dev/null || true
-cp -r build/aur/* final_build/ 2>/dev/null || true
-cp -r build/tarball/* final_build/ 2>/dev/null || true
-cp -r build/windows/* final_build/ 2>/dev/null || true
+echo "Copying packages to bin directory..."
+
+if cp -r build/rpm/* bin/ 2>/dev/null; then
+  echo "RPM packages copied successfully."
+else
+  echo "Failed to copy RPM packages."
+fi
+
+if cp -r build/deb/* bin/ 2>/dev/null; then
+  echo "DEB packages copied successfully."
+else
+  echo "Failed to copy DEB packages."
+fi
+
+if cp -r build/aur/* bin/ 2>/dev/null; then
+  echo "AUR packages copied successfully."
+else
+  echo "Failed to copy AUR packages."
+fi
+
+if cp -r build/tarball/* bin/ 2>/dev/null; then
+  echo "Tarball packages copied successfully."
+else
+  echo "Failed to copy Tarball packages."
+fi
+
+if cp -r build/windows/* bin/ 2>/dev/null; then
+  echo "Windows packages copied successfully."
+else
+  echo "Failed to copy Windows packages."
+fi
+
+echo "Completed building"

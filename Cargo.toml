@@ -2,7 +2,7 @@
 name = "cuur"
 version = "0.0.1"
 edition = "2021"
-authors = ["Efe TUROĞLU <un.known.river.person@gmail.com>"]  # Add your name & email
+authors = ["Efe TUROĞLU <un.known.river.person@gmail.com>"]
 license = "GPL-3"
 description = "Cuur allows you to write a configuration file to install packages with your system's package manager"
 repository = "https://github.com/byTheInK/cuur"
