@@ -13,7 +13,7 @@ pub struct TomlSystem {
     pub default_aur: Option<bool>,
     pub aur_helper: Option<String>,
     pub pkg_name: Option<HashMap<String, HashMap<String, String>>>,
-    pub pkg_manager: Option<HashMap<String, HashMap<String, String>>>,
+    pub pkg_manager: Option<HashMap<String, String>>,
     pub works_on: Vec<String>,
 }
 

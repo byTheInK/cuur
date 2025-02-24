@@ -1,6 +1,4 @@
 [sys]
-default_aur = true
-aur_helper = "yay"
 works_on = ["all"]
 
 [startup]

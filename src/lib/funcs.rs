@@ -7,17 +7,13 @@ pub fn handle_package_installation(
     default_aur: bool,
     install_packages: Option<Vec<String>>,
     pkg_name: Option<HashMap<String, HashMap<String, String>>>,
-    pkg_manager: Option<HashMap<String, HashMap<String, String>>>,
+    pkg_manager: Option<HashMap<String, String>>,
     get_package_manager_install: fn(&str) -> Option<(&'static str, &'static str, &'static str)>,
 ) {
-    if let Some((mut pm, prefix, auto_confirm)) =
-        get_package_manager_install(os_name)
-    {
+    if let Some((mut pm, prefix, auto_confirm)) = get_package_manager_install(os_name) {
         if let Some(ref pkg_manager_map) = pkg_manager {
             if let Some(replacement) = pkg_manager_map.get(os_name) {
-                if let Some(new_pm) = replacement.get("install") {
-                    pm = new_pm;
-                }
+                pm = replacement;
             }
         }
 
@@ -68,17 +64,13 @@ pub fn handle_package_removal(
     default_aur: bool,
     remove_packages: Option<Vec<String>>,
     pkg_name: Option<HashMap<String, HashMap<String, String>>>,
-    pkg_manager: Option<HashMap<String, HashMap<String, String>>>,
+    pkg_manager: Option<HashMap<String, String>>,
     get_package_manager_remove: fn(&str) -> Option<(&'static str, &'static str, &'static str)>,
 ) {
-    if let Some((mut pm, prefix, auto_confirm)) =
-        get_package_manager_remove(os_name)
-    {
+    if let Some((mut pm, prefix, auto_confirm)) = get_package_manager_remove(os_name) {
         if let Some(ref pkg_manager_map) = pkg_manager {
             if let Some(replacement) = pkg_manager_map.get(os_name) {
-                if let Some(new_pm) = replacement.get("remove") {
-                    pm = new_pm;
-                }
+                pm = replacement;
             }
         }
 
