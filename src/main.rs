@@ -7,8 +7,11 @@ use toml::from_str as parse_toml;
 use serde_yaml::from_str as parse_yaml;
 
 pub mod package_managers;
-pub mod structs;
 pub mod cli_opts;
+
+mod lib {
+    pub mod structs;
+}
 
 fn execute_commands(exec_commands: &[String]) {
     for exec_command in exec_commands {
@@ -170,7 +173,7 @@ fn main() {
         }
     };
 
-    let parsed: structs::Cuur;
+    let parsed: lib::structs::Cuur;
 
     if args.toml {
         parsed = match parse_toml(&contents) {
