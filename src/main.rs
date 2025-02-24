@@ -93,7 +93,7 @@ fn main() {
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
-    lib::funcs::handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone());
+    lib::funcs::handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone(), package_managers::get_package_manager_install);
 
-    lib::funcs::handle_package_removal(&os_name, default_aur, parsed.pkg.remove, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone());
+    lib::funcs::handle_package_removal(&os_name, default_aur, parsed.pkg.remove, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone(), package_managers::get_package_manager_remove);
 }
