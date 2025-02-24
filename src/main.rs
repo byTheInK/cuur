@@ -81,6 +81,12 @@ fn main() {
         || (parsed.sys.works_on.contains(&"linux".to_string()) && package_managers::get_linux().contains(&os_name))
         || (parsed.sys.works_on.contains(&"bsd".to_string()) && package_managers::get_bsd().contains(&os_name));
 
+
+    if os_name == "Unknown" {
+        println!("You operating system/distribution doesn't support Cuur. Please look at the supported operating systems from https://crates.io/crates/os_info.");
+        return;
+    }
+
     let aur_helper = parsed
         .sys
         .aur_helper
