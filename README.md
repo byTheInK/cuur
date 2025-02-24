@@ -21,3 +21,15 @@ cuur input.toml
 ```bash
 cuur input.yml --yaml
 ```
+
+## Basics
+Let's make a file called `backup.toml`. Inside this file, we are going to put the packages we use.
+
+```toml
+[sys]
+works_on = ["all"]
+
+[pkg]
+install = ["sudo", "vim", "nano", "htop", "chromium", "firefox"]
+``` 
+
