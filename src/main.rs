@@ -1,3 +1,4 @@
+use clap::Parser;
 use os_info::get as os_get;
 use std::collections::HashMap;
 use std::fs;
@@ -7,6 +8,7 @@ use serde_yaml::from_str as parse_yaml;
 
 pub mod package_managers;
 pub mod structs;
+pub mod cli_opts;
 
 fn execute_commands(exec_commands: &[String]) {
     for exec_command in exec_commands {
@@ -158,14 +160,9 @@ fn handle_package_removal(
 
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
+    let args:cli_opts::Args = cli_opts::Args::parse();
 
-    if args.len() < 2 {
-        eprintln!("Please enter a file name.");
-        return;
-    }
-
-    let contents = match fs::read_to_string(&args[1]) {
+    let contents = match fs::read_to_string(&args.file) {
         Ok(content) => content,
         Err(err) => {
             eprintln!("Error reading file: {}", err);
@@ -173,9 +170,9 @@ fn main() {
         }
     };
 
-    let mut parsed: structs::Cuur;
+    let parsed: structs::Cuur;
 
-    if false {
+    if args.toml {
         parsed = match parse_toml(&contents) {
             Ok(config) => config,
             Err(err) => {
