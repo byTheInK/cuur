@@ -2,7 +2,7 @@ use os_info::get as os_get;
 use std::collections::HashMap;
 use std::fs;
 use std::process::Command;
-use toml;
+use toml::from_str as parse_toml;
 
 pub mod package_managers;
 pub mod structs;
@@ -172,7 +172,7 @@ fn main() {
         }
     };
 
-    let parsed: structs::Cuur = match toml::from_str(&contents) {
+    let parsed: structs::Cuur = match parse_toml(&contents) {
         Ok(config) => config,
         Err(err) => {
             eprintln!("Error parsing TOML: {}", err);
