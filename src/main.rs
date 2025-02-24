@@ -64,6 +64,9 @@ fn main() {
         };
     }
 
+    if args.debug {
+        dbg!(&parsed);
+    }
 
     let os_name = os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;

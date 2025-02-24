@@ -11,4 +11,7 @@ pub struct Args {
 
     #[arg(long, default_value_t = true, conflicts_with = "yaml")]
     pub toml: bool,
+
+    #[arg(long, short)]
+    pub debug: bool,
 }
