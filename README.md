@@ -7,5 +7,17 @@ You can get Cuur from [here](https://github.com/byTheInK/cuur/releases). Pick th
 ## Building from source
 You can check out [here](./media/markdown/build.md) to get the development version.
 
-# Examples
-You can use both `Toml` and `Yaml` for this file. I recommend you using a Toml file but if you prefer, you can use a `Yaml` file.
+# Usage
+You can use both `toml` and `yaml` for this file. I recommend you using a roml file but if you prefer, you can use a yaml file.
+
+## Flags
+There are currently three flags. These are: `--toml`, `--yaml` and `--debug`. Toml flag gets added by default but if you want to use a yaml file you have to use the yaml flag.
+
+### Example:
+```bash
+cuur input.toml
+```
+
+```bash
+cuur input.yml --yaml
+```
