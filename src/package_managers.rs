@@ -114,7 +114,7 @@ pub fn get_package_manager_remove(
 }
 
 
-fn get_linux() -> Vec<String> {
+pub fn get_linux() -> Vec<String> {
     vec![
         "Alpaquita Linux".to_string(),
         "AlmaLinux".to_string(),
@@ -149,7 +149,7 @@ fn get_linux() -> Vec<String> {
     ]
 }
 
-fn get_bsd() -> Vec<String> {
+pub fn get_bsd() -> Vec<String> {
     vec![
         "DragonFly BSD".to_string(),
         "FreeBSD".to_string(),
