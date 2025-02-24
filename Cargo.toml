@@ -9,9 +9,10 @@ repository = "https://github.com/byTheInK/cuur"
 
 [dependencies]
 toml = "0.8"
-serde = {version="1.0", features=["derive"]}
+serde = {version="1.0.218", features=["derive"]}
 os_info = "3"
 serde_yaml = "0.9.34"
+clap = { version = "4.4", features = ["derive"] }
 
 [package.metadata.rpm]
 package = "cuur"

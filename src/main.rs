@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::process::Command;
 use toml::from_str as parse_toml;
+use serde_yaml::from_str as parse_yaml;
 
 pub mod package_managers;
 pub mod structs;
@@ -172,13 +173,26 @@ fn main() {
         }
     };
 
-    let parsed: structs::Cuur = match parse_toml(&contents) {
-        Ok(config) => config,
-        Err(err) => {
-            eprintln!("Error parsing TOML: {}", err);
-            return;
-        }
-    };
+    let mut parsed: structs::Cuur;
+
+    if false {
+        parsed = match parse_toml(&contents) {
+            Ok(config) => config,
+            Err(err) => {
+                eprintln!("Error parsing TOML: {}", err);
+                return;
+            }
+        };
+    } else {
+        parsed = match parse_yaml(&contents) {
+            Ok(config) => config,
+            Err(err) => {
+                eprintln!("Error parsing YAML: {}", err);
+                return;
+            }
+        };
+    }
+
 
     let os_name = os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;
