@@ -36,6 +36,10 @@ fn execute_commands(exec_commands: &[String]) {
 fn main() {
     let args:cli_opts::Args = cli_opts::Args::parse();
 
+    if args.debug {
+        dbg!(&args);
+    }
+
     let contents = match fs::read_to_string(&args.file) {
         Ok(content) => content,
         Err(err) => {
@@ -46,7 +50,7 @@ fn main() {
 
     let parsed: lib::structs::Cuur;
 
-    if args.toml {
+    if !args.yaml {
         parsed = match parse_toml(&contents) {
             Ok(config) => config,
             Err(err) => {
