@@ -107,9 +107,55 @@ pub fn get_package_manager_remove(
         ("SUSE Linux Enterprise Server", ("zypper", "remove", "-y")),
         ("Ubuntu", ("apt", "remove", "-y")),
         ("Ultramarine Linux", ("dnf", "remove", "-y")),
-        ("Unknown", ("unknown", "", "")),
         ("Void Linux", ("xbps-remove", "-R", "-y")),
     ]);
 
     package_managers.get(distro).copied()
+}
+
+
+fn get_linux() -> Vec<String> {
+    vec![
+        "Alpaquita Linux".to_string(),
+        "AlmaLinux".to_string(),
+        "Alpine Linux".to_string(),
+        "Amazon Linux".to_string(),
+        "Arch Linux".to_string(),
+        "Artix Linux".to_string(),
+        "CachyOS".to_string(),
+        "CentOS".to_string(),
+        "Debian".to_string(),
+        "EndeavourOS".to_string(),
+        "Fedora".to_string(),
+        "Garuda Linux".to_string(),
+        "Gentoo Linux".to_string(),
+        "Kali Linux".to_string(),
+        "Mabox".to_string(),
+        "Manjaro".to_string(),
+        "Mariner".to_string(),
+        "Mint".to_string(),
+        "NixOS".to_string(),
+        "Nobara Linux".to_string(),
+        "openSUSE".to_string(),
+        "Oracle Linux".to_string(),
+        "Pop!_OS".to_string(),
+        "Red Hat".to_string(),
+        "Rocky Linux".to_string(),
+        "Solus".to_string(),
+        "SUSE Linux".to_string(),
+        "Ubuntu".to_string(),
+        "Void Linux".to_string(),
+        "Ultramarine Linux".to_string(),
+    ]
+}
+
+fn get_bsd() -> Vec<String> {
+    vec![
+        "DragonFly BSD".to_string(),
+        "FreeBSD".to_string(),
+        "HardenedBSD".to_string(),
+        "MidnightBSD".to_string(),
+        "NetBSD".to_string(),
+        "OpenBSD".to_string(),
+    ]
 }
