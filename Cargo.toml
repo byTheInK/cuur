@@ -13,6 +13,7 @@ serde = {version="1.0.218", features=["derive"]}
 os_info = "3"
 serde_yaml = "0.9.34"
 clap = { version = "4.4", features = ["derive"] }
+serde_json = "1.0.139"
 
 [package.metadata.rpm]
 package = "cuur"

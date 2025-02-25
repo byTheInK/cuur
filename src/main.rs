@@ -3,6 +3,7 @@ use os_info::get as os_get;
 use std::process::Command;
 use toml::from_str as parse_toml;
 use serde_yaml::from_str as parse_yaml;
+use serde_json::from_str as parse_json;
 use std::fs;
 
 pub mod package_managers;
@@ -55,6 +56,14 @@ fn main() {
             Ok(config) => config,
             Err(err) => {
                 eprintln!("Error parsing YAML: {}", err);
+                return;
+            }
+        };
+    } else if args.json {
+        parsed = match parse_json(&contents) {
+            Ok(config) => config,
+            Err(err) => {
+                eprintln!("Error parsing TOML: {}", err);
                 return;
             }
         };
