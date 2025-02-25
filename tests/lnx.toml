@@ -1,0 +1,5 @@
+[sys]
+works_on = ["linux"]
+
+[pkg]
+install = ["nano"]
