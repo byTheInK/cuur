@@ -113,6 +113,60 @@ pub fn get_package_manager_remove(
     package_managers.get(distro).copied()
 }
 
+pub fn get_package_manager_upgrade(
+    distro: &str,
+) -> Option<(&'static str, &'static str, &'static str)> {
+    let package_managers: HashMap<&str, (&str, &str, &str)> = HashMap::from([
+        ("AIX", ("installp", "-u", "")),
+        ("AlmaLinux", ("dnf", "upgrade", "-y")),
+        ("Alpaquita Linux", ("apk", "upgrade", "--no-confirm")),
+        ("Alpine Linux", ("apk", "upgrade", "--no-confirm")),
+        ("Amazon Linux AMI", ("yum", "update", "-y")),
+        ("Android", ("pkg", "upgrade", "-y")),
+        ("Arch Linux", ("pacman", "-Syu", "--noconfirm")),
+        ("Artix Linux", ("pacman", "-Syu", "--noconfirm")),
+        ("CachyOS", ("pacman", "-Syu", "--noconfirm")),
+        ("CentOS", ("dnf", "upgrade", "-y")),
+        ("Debian", ("apt", "upgrade", "-y")),
+        ("DragonFly BSD", ("pkg", "upgrade", "-y")),
+        ("Emscripten", ("emsdk", "update", "")),
+        ("EndeavourOS", ("pacman", "-Syu", "--noconfirm")),
+        ("Fedora", ("dnf", "upgrade", "-y")),
+        ("FreeBSD", ("pkg", "upgrade", "-y")),
+        ("Garuda Linux", ("pacman", "-Syu", "--noconfirm")),
+        ("Gentoo Linux", ("emerge", "--update", "@world")),
+        ("HardenedBSD", ("pkg", "upgrade", "-y")),
+        ("illumos", ("pkgin", "upgrade", "-y")),
+        ("Kali Linux", ("apt", "upgrade", "-y")),
+        ("Linux", ("varies", "", "")),
+        ("Mabox", ("pacman", "-Syu", "--noconfirm")),
+        ("Manjaro", ("pacman", "-Syu", "--noconfirm")),
+        ("Mariner", ("tdnf", "upgrade", "-y")),
+        ("MidnightBSD", ("mport", "upgrade", "")),
+        ("Mint", ("apt", "upgrade", "-y")),
+        ("NetBSD", ("pkgin", "upgrade", "-y")),
+        ("NixOS", ("nix-env", "-u", "")),
+        ("Nobara Linux", ("dnf", "upgrade", "-y")),
+        ("OpenBSD", ("pkg_add", "-u", "")),
+        ("OpenCloudOS", ("dnf", "upgrade", "-y")),
+        ("openEuler", ("dnf", "upgrade", "-y")),
+        ("openSUSE", ("zypper", "update", "-y")),
+        ("Oracle Linux", ("dnf", "upgrade", "-y")),
+        ("Pop!_OS", ("apt", "upgrade", "-y")),
+        ("Raspberry Pi OS", ("apt", "upgrade", "-y")),
+        ("Red Hat Linux", ("rpm", "-U", "")),
+        ("Red Hat Enterprise Linux", ("dnf", "upgrade", "-y")),
+        ("Redox", ("pkg", "upgrade", "-y")),
+        ("Rocky Linux", ("dnf", "upgrade", "-y")),
+        ("Solus", ("eopkg", "upgrade", "-y")),
+        ("SUSE Linux Enterprise Server", ("zypper", "update", "-y")),
+        ("Ubuntu", ("apt", "upgrade", "-y")),
+        ("Ultramarine Linux", ("dnf", "upgrade", "-y")),
+        ("Void Linux", ("xbps-install", "-Su", "-y")),
+    ]);
+
+    package_managers.get(distro).copied()
+}
 
 pub fn get_linux() -> Vec<String> {
     vec![
