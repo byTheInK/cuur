@@ -91,7 +91,7 @@ fn main() {
 
 
     if os_name == "Unknown" {
-        println!("You operating system/distribution doesn't support Cuur. Please look at the supported operating systems from https://crates.io/crates/os_info.");
+        println!("Your system doesn't support Cuur. Please look at the supported operating systems from https://crates.io/crates/os_info.");
         return;
     }
 
