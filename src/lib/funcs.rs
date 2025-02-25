@@ -117,8 +117,6 @@ pub fn handle_package_removal(
 
 pub fn handle_system_update(
     os_name: &str,
-    aur_helper: &str,
-    default_aur: bool,
     pkg_manager: Option<HashMap<String, String>>,
     get_package_manager_upgrade: fn(&str) -> Option<(&'static str, &'static str, &'static str)>,
 ) {
@@ -127,10 +125,6 @@ pub fn handle_system_update(
             if let Some(replacement) = pkg_manager_map.get(os_name) {
                 pm = replacement;
             }
-        }
-
-        if default_aur {
-            pm = aur_helper;
         }
 
         let output = Command::new("sudo")
