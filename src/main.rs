@@ -50,19 +50,19 @@ fn main() {
 
     let parsed: lib::structs::Cuur;
 
-    if !args.yaml {
-        parsed = match parse_toml(&contents) {
-            Ok(config) => config,
-            Err(err) => {
-                eprintln!("Error parsing TOML: {}", err);
-                return;
-            }
-        };
-    } else {
+    if args.yaml {
         parsed = match parse_yaml(&contents) {
             Ok(config) => config,
             Err(err) => {
                 eprintln!("Error parsing YAML: {}", err);
+                return;
+            }
+        };
+    } else {
+        parsed = match parse_toml(&contents) {
+            Ok(config) => config,
+            Err(err) => {
+                eprintln!("Error parsing TOML: {}", err);
                 return;
             }
         };
