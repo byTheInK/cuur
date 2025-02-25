@@ -26,4 +26,5 @@ pub struct TomlPackages {
 #[derive(Deserialize, Debug)]
 pub struct TomlStartup {
     pub exec: Option<Vec<String>>,
+    pub update: Option<bool>,
 }

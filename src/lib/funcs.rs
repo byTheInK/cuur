@@ -114,3 +114,42 @@ pub fn handle_package_removal(
         eprintln!("No package manager found for {}", os_name);
     }
 }
+
+pub fn handle_system_update(
+    os_name: &str,
+    aur_helper: &str,
+    default_aur: bool,
+    pkg_manager: Option<HashMap<String, String>>,
+    get_package_manager_upgrade: fn(&str) -> Option<(&'static str, &'static str, &'static str)>,
+) {
+    if let Some((mut pm, prefix, auto_confirm)) = get_package_manager_upgrade(os_name) {
+        if let Some(ref pkg_manager_map) = pkg_manager {
+            if let Some(replacement) = pkg_manager_map.get(os_name) {
+                pm = replacement;
+            }
+        }
+
+        if default_aur {
+            pm = aur_helper;
+        }
+
+        let output = Command::new("sudo")
+            .args([pm, prefix, auto_confirm])
+            .output();
+
+        match output {
+            Ok(res) if res.status.success() => {
+                println!("System updated successfully.");
+            }
+            Ok(res) => {
+                eprintln!("Error updating system.");
+                eprintln!("{}", String::from_utf8_lossy(&res.stderr));
+            }
+            Err(e) => {
+                eprintln!("Failed to execute command: {}", e);
+            }
+        }
+    } else {
+        eprintln!("No package manager found for {}", os_name);
+    }
+}
