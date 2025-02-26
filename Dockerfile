@@ -1,4 +1,4 @@
-FROM opensuse:latest
+FROM opensuse:opensuse/tumbleweed
 
 RUN zypper update && zypper -y install curl build-essential pkg-config
 
