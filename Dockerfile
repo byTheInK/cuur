@@ -1,7 +1,14 @@
 FROM debian:latest
 
-RUN apt update && apt upgrade
-RUN apt install curl
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+RUN apt-get update && apt-get -y install curl build-essential pkg-config
 
-CMD [ "cargo", "build" ]
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+WORKDIR /cuur
+COPY . .
+
+RUN chmod +x scripts/build
+RUN cargo build --release
+
+CMD [ "cargo", "run", "--release", "--", "/cuur/tests/main.toml" ]
