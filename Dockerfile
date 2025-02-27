@@ -15,6 +15,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y && \
     source $HOME/.cargo/env && \
     cargo install cargo-rpm cargo-deb cargo-aur \
     rustup target add x86_64-pc-windows-gnu
+
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 WORKDIR /cuur
