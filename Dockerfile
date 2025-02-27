@@ -1,16 +1,25 @@
-FROM opensuse/tumbleweed:latest
+FROM opensuse/tumbleweed
 
-RUN zypper --gpg-auto-import-keys refresh && \
-    zypper -n install curl gcc make pkg-config patterns-devel-base-devel_basis
+RUN zypper refresh && \
+    zypper install -y \
+        git \
+        curl \
+        tar \
+        gzip \
+        rpm-build \
+        dos2unix \
+        cargo \
+        && zypper clean --all
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
-    echo 'export PATH="/root/.cargo/bin:$PATH"' >> /root/.bashrc
-
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+    source $HOME/.cargo/env && \
+    cargo install cargo-rpm cargo-deb cargo-aur \
+    rustup target add x86_64-pc-windows-gnu
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 WORKDIR /cuur
+
 COPY . .
 
-RUN chmod +x scripts/build
-
-CMD ["cargo", "run", "--release", "--", "/cuur/tests/main.toml"]
+RUN dos2unix /cuur/scripts/build
+RUN chmod +x /cuur/scripts/build
