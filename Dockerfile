@@ -1,15 +1,16 @@
 FROM opensuse/tumbleweed:latest
 
-RUN zypper refresh && \
+RUN zypper --gpg-auto-import-keys refresh && \
     zypper -n install curl gcc make pkg-config patterns-devel-base-devel_basis
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && \
+    echo 'export PATH="/root/.cargo/bin:$PATH"' >> /root/.bashrc
+
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-COPY . /cuur
-RUN chmod +x /cuur/scripts/build
-
 WORKDIR /cuur
-RUN cargo build --release
+COPY . .
 
-CMD ["sh", "-c", "cargo run --release -- /cuur/tests/main.toml"]
+RUN chmod +x scripts/build
+
+CMD ["cargo", "run", "--release", "--", "/cuur/tests/main.toml"]
