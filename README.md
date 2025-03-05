@@ -1,7 +1,7 @@
 # cuur
 Cuur is an alternative to Nix but the extra features is instead of the Nix package manager it uses the system package manager. You can also use AUR and AUR helpers. This project makes distro-hopping a lot easier because you can write a configuration file to install the packages you want.
 
-!> [!WARNING]
+> [!WARNING]
 > Cuur currently doesn't work in Windows unless you use Windows subsystem for Linux.
 
 # Installation
