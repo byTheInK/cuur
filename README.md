@@ -1,5 +1,8 @@
 # cuur
-Cuur is an alternative to Nix but the extra features is instead of the Nix package manager it uses the system package manager. You can also use AUR and AUR helpers.
+Cuur is an alternative to Nix but the extra features is instead of the Nix package manager it uses the system package manager. You can also use AUR and AUR helpers. This project makes distro-hopping a lot easier because you can write a configuration file to install the packages you want.
+
+!> [!WARNING]
+> Cuur currently doesn't work in Windows unless you use Windows subsystem for Linux.
 
 # Installation
 You can get Cuur from [here](https://github.com/byTheInK/cuur/releases). Pick the correct package for your operating system or distribution. For Debian pick `.deb`, for Fedora `.rpm` and for Windows `.exe`.
@@ -11,7 +14,7 @@ You can check out [here](./media/markdown/build.md) to get the development versi
 You can use both `toml` and `yaml` for this file. I recommend you using a toml file but if you prefer, you can use a yaml file.
 
 ## Flags
-There are currently three flags. These are: `--toml`, `--yaml` and `--debug`. Toml flag gets added by default but if you want to use a yaml file you have to use the yaml flag.
+There are currently four flags. These are: `--toml`, `--yaml`, `json` and `--debug`. Toml flag gets added by default but if you want to use a yaml file you have to use the yaml flag.
 
 ### Example:
 ```bash
