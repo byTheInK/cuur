@@ -81,7 +81,7 @@ fn main() {
     let os_name = &os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;
     let is_allowed = works_on.first() == Some(&"all".to_string())
-        || (works_on.contains(&os_name) && !works_on.starts_with(&["exclude".to_string()]))
+        || (works_on.contains(os_name) && !works_on.starts_with(&["exclude".to_string()]))
         || (works_on.contains(&"linux".to_string())
             && package_managers::get_linux().contains(os_name)
             && !works_on.starts_with(&["exclude".to_string()]))
@@ -145,4 +145,3 @@ fn main() {
         package_managers::get_package_manager_remove,
     );
 }
-
