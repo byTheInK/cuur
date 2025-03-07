@@ -1,25 +1,22 @@
 use clap::Parser;
 use os_info::get as os_get;
+use serde_json::from_str as parse_json;
+use serde_yaml::from_str as parse_yaml;
+use std::fs;
 use std::process::Command;
 use toml::from_str as parse_toml;
-use serde_yaml::from_str as parse_yaml;
-use serde_json::from_str as parse_json;
-use std::fs;
 
-pub mod package_managers;
 pub mod cli_opts;
+pub mod package_managers;
 
 mod lib {
-    pub mod structs;
     pub mod funcs;
+    pub mod structs;
 }
 
 fn execute_commands(exec_commands: &[String]) {
     for exec_command in exec_commands {
-        let output = Command::new("sh")
-            .arg("-c")
-            .arg(exec_command)
-            .output();
+        let output = Command::new("sh").arg("-c").arg(exec_command).output();
 
         match output {
             Ok(res) if res.status.success() => {
@@ -35,7 +32,7 @@ fn execute_commands(exec_commands: &[String]) {
     }
 }
 fn main() {
-    let args:cli_opts::Args = cli_opts::Args::parse();
+    let args: cli_opts::Args = cli_opts::Args::parse();
 
     if args.debug {
         dbg!(&args);
@@ -83,12 +80,14 @@ fn main() {
 
     let os_name = &os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;
-    let is_allowed = 
-        works_on.first() == Some(&"all".to_string())
-        || (works_on.contains(&os_name) && works_on.first() != Some(&"exclude".to_string()))
-        || (works_on.contains(&"linux".to_string()) && package_managers::get_linux().contains(os_name))
-        || (works_on.contains(&"bsd".to_string()) && package_managers::get_bsd().contains(os_name));
-
+    let is_allowed = works_on.first() == Some(&"all".to_string())
+        || (works_on.contains(&os_name) && !works_on.starts_with(&["exclude".to_string()]))
+        || (works_on.contains(&"linux".to_string())
+            && package_managers::get_linux().contains(os_name)
+            && !works_on.starts_with(&["exclude".to_string()]))
+        || (works_on.contains(&"bsd".to_string())
+            && package_managers::get_bsd().contains(os_name)
+            && !works_on.starts_with(&["exclude".to_string()]));
 
     if os_name == "Unknown" {
         println!("Your system doesn't support Cuur. Please look at the supported operating systems from https://crates.io/crates/os_info.");
@@ -113,12 +112,12 @@ fn main() {
             execute_commands(exec);
         }
 
-        if let Some(ref update) = startup.update{
+        if let Some(ref update) = startup.update {
             if *update {
                 lib::funcs::handle_system_update(
-                    &os_name, 
-                    parsed.sys.pkg_manager.clone(), 
-                    package_managers::get_package_manager_upgrade
+                    &os_name,
+                    parsed.sys.pkg_manager.clone(),
+                    package_managers::get_package_manager_upgrade,
                 );
             }
         }
@@ -127,7 +126,23 @@ fn main() {
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
-    lib::funcs::handle_package_installation(&os_name, &aur_helper, default_aur, parsed.pkg.install, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone(), package_managers::get_package_manager_install);
+    lib::funcs::handle_package_installation(
+        &os_name,
+        &aur_helper,
+        default_aur,
+        parsed.pkg.install,
+        parsed.sys.pkg_name.clone(),
+        parsed.sys.pkg_manager.clone(),
+        package_managers::get_package_manager_install,
+    );
 
-    lib::funcs::handle_package_removal(&os_name, default_aur, parsed.pkg.remove, parsed.sys.pkg_name.clone(), parsed.sys.pkg_manager.clone(), package_managers::get_package_manager_remove);    
+    lib::funcs::handle_package_removal(
+        &os_name,
+        default_aur,
+        parsed.pkg.remove,
+        parsed.sys.pkg_name.clone(),
+        parsed.sys.pkg_manager.clone(),
+        package_managers::get_package_manager_remove,
+    );
 }
+
