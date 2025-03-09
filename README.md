@@ -45,7 +45,7 @@ cuur --toml ./backup.toml
 We can also put distribution names into the works_on variable.
 ```toml
 [sys]
-works_on = ["Arch Linux", "Debian", "Ubuntu", "FreeBsd"]
+works_on = ["Arch Linux", "Debian", "Ubuntu", "FreeBSD"]
 
 [pkg]
 install = ["htop"]
