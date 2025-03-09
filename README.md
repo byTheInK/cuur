@@ -48,3 +48,5 @@ works_on = ["Arch Linux", "Debian", "Ubuntu", "FreeBSD"]
 [pkg]
 install = ["htop"]
 ```
+# License
+This project uses [GPL-3](https://choosealicense.com/licenses/gpl-3.0/) License. You can look at the License from [here](https://github.com/byTheInK/cuur?tab=GPL-3.0-1-ov-file).
