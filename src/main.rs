@@ -67,6 +67,7 @@ fn main() {
         works_on,
         package_managers::get_linux,
         package_managers::get_bsd,
+        package_managers::get_package_manager_install,
     );
 
     if args.debug {

@@ -150,9 +150,42 @@ pub fn is_os_allowed(
     works_on: &[String],
     get_linux: fn() -> Vec<String>,
     get_bsd: fn() -> Vec<String>,
+    get_package_manager_install: fn(&str) -> Option<(&'static str, &'static str, &'static str)>,
 ) -> bool {
     if works_on.first().map(|s| s == "all").unwrap_or(false) {
         return true;
+    }
+
+    let includepm: Vec<String> = works_on
+        .iter()
+        .filter(|&s| s.starts_with("includepm"))
+        .map(|s| s.replace("includepm", "").trim().to_string())
+        .collect();
+
+    let excludepm: Vec<String> = works_on
+        .iter()
+        .filter(|&s| s.starts_with("excludepm"))
+        .map(|s| s.replace("excludepm", "").trim().to_string())
+        .collect();
+
+    if !includepm.is_empty() {
+        let pm = get_package_manager_install(os_name);
+        if let Some((pm_name, _, _)) = pm {
+            if !includepm.contains(&pm_name.to_string()) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    if !excludepm.is_empty() {
+        let pm = get_package_manager_install(os_name);
+        if let Some((pm_name, _, _)) = pm {
+            if excludepm.contains(&pm_name.to_string()) {
+                return false;
+            }
+        }
     }
 
     if works_on.contains(&os_name.to_string()) && !works_on.contains(&"exclude".to_string()) {
