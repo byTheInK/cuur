@@ -14,7 +14,7 @@ You can check out [here](./media/markdown/build.md) to get the development versi
 You can use both `toml` and `yaml` for this file. I recommend you using a toml file but if you prefer, you can use a yaml file.
 
 ## Flags
-There are currently four flags. These are: `--toml`, `--yaml`, `json` and `--debug`. Toml flag gets added by default but if you want to use a yaml or a json file you have to use the yaml or json flag.
+There are currently four flags. These are: `--toml`, `--yaml`, `--json` and `--debug`. Toml flag gets added by default but if you want to use a yaml or a json file you have to use the yaml or json flag.
 
 ### Example:
 ```bash
