@@ -41,3 +41,12 @@ Now we can execute this with the command below.
 ```bash
 cuur --toml ./backup.toml
 ```
+
+We can also put distribution names into the works_on variable.
+```toml
+[sys]
+works_on = ["Arch Linux", "Debian", "Ubuntu", "FreeBsd"]
+
+[pkg]
+install = ["htop"]
+```
