@@ -87,6 +87,11 @@ fn main() {
         package_managers::get_bsd,
     );
 
+    if args.debug {
+        dbg!("Allowed: ", &mut is_allowed);
+        dbg!(&os_name);
+    }
+
     if os_name == "Unknown" {
         println!("Your system doesn't support Cuur. Please check supported OS at: https://crates.io/crates/os_info.");
         println!("Do you still want to continue? [y]es/[N]o");
