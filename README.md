@@ -40,7 +40,7 @@ Now we can execute this with the command below.
 cuur --toml ./backup.toml
 ```
 
-We can also put distribution names into the works_on variable.
+We can also put distribution names into the `works_on` variable.
 ```toml
 [sys]
 works_on = ["Arch Linux", "Debian", "Ubuntu", "FreeBSD"]
