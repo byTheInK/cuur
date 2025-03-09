@@ -80,7 +80,12 @@ fn main() {
 
     let os_name = os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;
-    let mut is_allowed = lib::funcs::is_os_allowed(&os_name, works_on);
+    let mut is_allowed = lib::funcs::is_os_allowed(
+        &os_name,
+        works_on,
+        package_managers::get_linux,
+        package_managers::get_bsd,
+    );
 
     if os_name == "Unknown" {
         println!("Your system doesn't support Cuur. Please check supported OS at: https://crates.io/crates/os_info.");
