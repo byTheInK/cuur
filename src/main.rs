@@ -88,7 +88,7 @@ fn main() {
     );
 
     if args.debug {
-        dbg!("Allowed: ", &mut is_allowed);
+        dbg!(&mut is_allowed);
         dbg!(&os_name);
     }
 
