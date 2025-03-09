@@ -58,7 +58,6 @@ pub fn handle_package_installation(
     }
 }
 
-
 pub fn handle_package_removal(
     os_name: &str,
     default_aur: bool,
@@ -91,9 +90,7 @@ pub fn handle_package_removal(
                         }
                     }
 
-                    let output = Command::new(pm)
-                        .args([prefix, auto_confirm, &pkg])
-                        .output();
+                    let output = Command::new(pm).args([prefix, auto_confirm, &pkg]).output();
 
                     match output {
                         Ok(res) if res.status.success() => {
@@ -146,4 +143,35 @@ pub fn handle_system_update(
     } else {
         eprintln!("No package manager found for {}", os_name);
     }
+}
+
+pub fn is_os_allowed(
+    os_name: &str,
+    works_on: &[String],
+    get_linux: fn() -> Vec<String>,
+    get_bsd: fn() -> Vec<String>,
+) -> bool {
+    if works_on.first().map(|s| s == "all").unwrap_or(false) {
+        return true;
+    }
+
+    if works_on.contains(&os_name.to_string()) && !works_on.contains(&"exclude".to_string()) {
+        return true;
+    }
+
+    if works_on.contains(&"linux".to_string())
+        && get_linux().contains(&os_name.to_string())
+        && !works_on.contains(&"exclude".to_string())
+    {
+        return true;
+    }
+
+    if works_on.contains(&"bsd".to_string())
+        && get_bsd().contains(&os_name.to_string())
+        && !works_on.contains(&"exclude".to_string())
+    {
+        return true;
+    }
+
+    false
 }

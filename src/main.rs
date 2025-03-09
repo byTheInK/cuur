@@ -78,20 +78,22 @@ fn main() {
         dbg!(&parsed);
     }
 
-    let os_name = &os_get().os_type().to_string();
+    let os_name = os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;
-    let is_allowed = works_on.first() == Some(&"all".to_string())
-        || (works_on.contains(os_name) && !works_on.starts_with(&["exclude".to_string()]))
-        || (works_on.contains(&"linux".to_string())
-            && package_managers::get_linux().contains(os_name)
-            && !works_on.starts_with(&["exclude".to_string()]))
-        || (works_on.contains(&"bsd".to_string())
-            && package_managers::get_bsd().contains(os_name)
-            && !works_on.starts_with(&["exclude".to_string()]));
+    let mut is_allowed = lib::funcs::is_os_allowed(&os_name, works_on);
 
     if os_name == "Unknown" {
-        println!("Your system doesn't support Cuur. Please look at the supported operating systems from https://crates.io/crates/os_info.");
-        return;
+        println!("Your system doesn't support Cuur. Please check supported OS at: https://crates.io/crates/os_info.");
+        println!("Do you still want to continue? [y]es/[N]o");
+
+        let mut input = String::new();
+        std::io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read input.");
+
+        if input.trim().eq_ignore_ascii_case("y") {
+            is_allowed = true;
+        }
     }
 
     let aur_helper = parsed
