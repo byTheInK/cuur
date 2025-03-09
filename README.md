@@ -11,8 +11,6 @@ You can get Cuur from [here](https://github.com/byTheInK/cuur/releases). Pick th
 You can check out [here](./media/markdown/build.md) to get the development version.
 
 # Usage
-You can use both `toml` and `yaml` for this file. I recommend you using a toml file but if you prefer, you can use a yaml file.
-
 ## Flags
 There are currently four flags. These are: `--toml`, `--yaml`, `--json` and `--debug`. Toml flag gets added by default but if you want to use a yaml or a json file you have to use the yaml or json flag.
 
@@ -34,7 +32,7 @@ works_on = ["all"]
 
 [pkg]
 install = ["sudo", "vim", "nano", "htop", "chromium", "firefox"]
-``` 
+```
 This file we made works in all of the distributions. In the `sys` tab we made a variable called `works_on`. We declared the string `all` in this variable so every distribution can use this file. In the `pkg` tab we declared a variable called `install`. We typed the names of the packages we want to install.
 
 Now we can execute this with the command below.
