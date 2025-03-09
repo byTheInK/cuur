@@ -175,3 +175,21 @@ pub fn is_os_allowed(
 
     false
 }
+
+pub fn execute_commands(exec_commands: &[String]) {
+    for exec_command in exec_commands {
+        let output = Command::new("sh").arg("-c").arg(exec_command).output();
+
+        match output {
+            Ok(res) if res.status.success() => {
+                println!("Executed startup command");
+            }
+            Ok(res) => {
+                eprintln!("{}", String::from_utf8_lossy(&res.stderr));
+            }
+            Err(e) => {
+                eprintln!("Failed to execute command: {}", e);
+            }
+        }
+    }
+}

@@ -3,7 +3,6 @@ use os_info::get as os_get;
 use serde_json::from_str as parse_json;
 use serde_yaml::from_str as parse_yaml;
 use std::fs;
-use std::process::Command;
 use toml::from_str as parse_toml;
 
 pub mod cli_opts;
@@ -14,23 +13,6 @@ mod lib {
     pub mod structs;
 }
 
-fn execute_commands(exec_commands: &[String]) {
-    for exec_command in exec_commands {
-        let output = Command::new("sh").arg("-c").arg(exec_command).output();
-
-        match output {
-            Ok(res) if res.status.success() => {
-                println!("Executed startup command");
-            }
-            Ok(res) => {
-                eprintln!("{}", String::from_utf8_lossy(&res.stderr));
-            }
-            Err(e) => {
-                eprintln!("Failed to execute command: {}", e);
-            }
-        }
-    }
-}
 fn main() {
     let args: cli_opts::Args = cli_opts::Args::parse();
 
@@ -121,7 +103,7 @@ fn main() {
 
     if let Some(ref startup) = parsed.startup {
         if let Some(ref exec) = startup.exec {
-            execute_commands(exec);
+            lib::funcs::execute_commands(exec);
         }
 
         if let Some(ref update) = startup.update {
