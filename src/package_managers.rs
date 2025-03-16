@@ -59,7 +59,7 @@ pub fn get_package_manager_install(
                 "--accept-source-agreements --accept-package-agreements",
             ),
         ),
-        ("macOS", ("brew", "install", "--yes")),
+        ("macOS", ("brew", "install", "--quiet")),
     ]);
 
     package_managers.get(distro).copied()
@@ -124,6 +124,7 @@ pub fn get_package_manager_remove(
             ),
         ),
         ("Unknown", ("unknown", "", "")),
+        ("macOS", ("brew", "uninstall", "--quiet")),
     ]);
 
     package_managers.get(distro).copied()
@@ -172,9 +173,7 @@ pub fn get_package_manager_upgrade(
         ("Raspberry Pi OS", ("apt", "upgrade", "-y")),
         ("Red Hat Linux", ("rpm", "-U", "")),
         ("Red Hat Enterprise Linux", ("dnf", "upgrade", "-y")),
-        ("Redox", ("pkg", "upgrade", "-y")),
-        ("Rocky Linux", ("dnf", "upgrade", "-y")),
-        ("Solus", ("eopkg", "upgrade", "-y")),
+        ("Redox", ("pkg", "upgrade", "-y")), ("Rocky Linux", ("dnf", "upgrade", "-y")), ("Solus", ("eopkg", "upgrade", "-y")),
         ("SUSE Linux Enterprise Server", ("zypper", "update", "-y")),
         ("Ubuntu", ("apt", "upgrade", "-y")),
         ("Ultramarine Linux", ("dnf", "upgrade", "-y")),
@@ -188,6 +187,7 @@ pub fn get_package_manager_upgrade(
                 "--accept-source-agreements --accept-package-agreements",
             ),
         ),
+        ("macOS", ("brew", "upgrade", "--quiet")),
     ]);
 
     package_managers.get(distro).copied()
