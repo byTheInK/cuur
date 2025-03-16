@@ -115,6 +115,7 @@ pub fn get_package_manager_remove(
         ("Ubuntu", ("apt", "remove", "-y")),
         ("Ultramarine Linux", ("dnf", "remove", "-y")),
         ("Void Linux", ("xbps-remove", "-R", "-y")),
+        ("Unknown", ("unknown", "", "")),
     ]);
 
     package_managers.get(distro).copied()
@@ -170,6 +171,7 @@ pub fn get_package_manager_upgrade(
         ("Ubuntu", ("apt", "upgrade", "-y")),
         ("Ultramarine Linux", ("dnf", "upgrade", "-y")),
         ("Void Linux", ("xbps-install", "-Su", "-y")),
+        ("Unknown", ("unknown", "", "")),
     ]);
 
     package_managers.get(distro).copied()

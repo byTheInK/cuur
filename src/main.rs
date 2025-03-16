@@ -69,6 +69,7 @@ fn main() {
         package_managers::get_bsd,
         package_managers::get_package_manager_install,
     );
+    let is_unknown: bool;
 
     if args.debug {
         dbg!(&mut is_allowed);
@@ -86,6 +87,7 @@ fn main() {
 
         if input.trim().eq_ignore_ascii_case("y") {
             is_allowed = true;
+            is_unknown = true;
         }
     }
 
