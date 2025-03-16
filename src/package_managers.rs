@@ -115,6 +115,14 @@ pub fn get_package_manager_remove(
         ("Ubuntu", ("apt", "remove", "-y")),
         ("Ultramarine Linux", ("dnf", "remove", "-y")),
         ("Void Linux", ("xbps-remove", "-R", "-y")),
+        (
+            "Windows",
+            (
+                "winget",
+                "uninstall",
+                "--accept-source-agreements --accept-package-agreements",
+            ),
+        ),
         ("Unknown", ("unknown", "", "")),
     ]);
 
@@ -172,6 +180,14 @@ pub fn get_package_manager_upgrade(
         ("Ultramarine Linux", ("dnf", "upgrade", "-y")),
         ("Void Linux", ("xbps-install", "-Su", "-y")),
         ("Unknown", ("unknown", "", "")),
+        (
+            "Windows",
+            (
+                "winget",
+                "upgrade",
+                "--accept-source-agreements --accept-package-agreements",
+            ),
+        ),
     ]);
 
     package_managers.get(distro).copied()
