@@ -2,7 +2,7 @@ use clap::Parser;
 use os_info::get as os_get;
 use serde_json::from_str as parse_json;
 use serde_yaml::from_str as parse_yaml;
-use std::fs;
+use std::{fs, process::exit};
 use toml::from_str as parse_toml;
 
 pub mod cli_opts;
@@ -88,7 +88,11 @@ fn main() {
         if input.trim().eq_ignore_ascii_case("y") {
             is_allowed = true;
             is_unknown = true;
+        } else {
+            exit(1);
         }
+    } else {
+        is_unknown = false;
     }
 
     let aur_helper = parsed
@@ -97,7 +101,7 @@ fn main() {
         .clone()
         .unwrap_or_else(|| "yay".to_string());
 
-    if !is_allowed {
+    if !is_allowed && !is_unknown {
         eprintln!(
             "This script does not support your system. If you wrote an incorrect name, check: https://crates.io/crates/os_info."
         );
