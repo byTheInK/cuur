@@ -2,7 +2,7 @@ use clap::Parser;
 use os_info::get as os_get;
 use serde_json::from_str as parse_json;
 use serde_yaml::from_str as parse_yaml;
-use std::{fs, process::exit};
+use std::fs;
 use toml::from_str as parse_toml;
 
 pub mod cli_opts;
@@ -69,7 +69,9 @@ fn main() {
         package_managers::get_bsd,
         package_managers::get_package_manager_install,
     );
+
     let is_unknown: bool;
+    let unknown_pkg_manager: Option<Vec<&str>>;
 
     if args.debug {
         dbg!(&mut is_allowed);
@@ -81,6 +83,10 @@ fn main() {
         println!("Do you still want to continue? [y]es/[N]o");
 
         let mut input = String::new();
+        let mut pkg_manager= String::new();
+        let mut = String::new();
+        let mut input = String::new();
+
         std::io::stdin()
             .read_line(&mut input)
             .expect("Failed to read input.");
@@ -88,11 +94,18 @@ fn main() {
         if input.trim().eq_ignore_ascii_case("y") {
             is_allowed = true;
             is_unknown = true;
+
+        println!("Write your package manager. (apt, dnf, zypper etc.)");
+        std::io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read input.");
+
         } else {
             exit(1);
         }
     } else {
         is_unknown = false;
+        unknown_pkg_manager = None;
     }
 
     let aur_helper = parsed
