@@ -2,7 +2,7 @@ use clap::Parser;
 use os_info::get as os_get;
 use serde_json::from_str as parse_json;
 use serde_yaml::from_str as parse_yaml;
-use std::fs;
+use std::{fs, process::exit};
 use toml::from_str as parse_toml;
 
 pub mod cli_opts;
@@ -82,9 +82,7 @@ fn main() {
         println!("Your system doesn't support Cuur. Please check supported OS at: https://crates.io/crates/os_info.");
         println!("Do you still want to continue? [y]es/[N]o");
 
-        let mut input = String::new();
-        let mut pkg_manager= String::new();
-        let mut = String::new();
+        let mut pkg_manager: Vec<String> = vec![];
         let mut input = String::new();
 
         std::io::stdin()
@@ -95,11 +93,23 @@ fn main() {
             is_allowed = true;
             is_unknown = true;
 
-        println!("Write your package manager. (apt, dnf, zypper etc.)");
-        std::io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read input.");
+            for question_index in 0..3 {
+                let mut cmd_input = String::new();
 
+                match question_index {
+                    1 => println!("Enter your package manager name (e.g., apt, dnf, zypper)"),
+                    2 => println!("Enter the installation command (e.g., install, -S, download)"),
+                    3 => println!("Enter the auto-confirm flag (e.g., -y, --noconfirm, --yes)"),
+                    _ => (),
+                }
+
+                std::io::stdin()
+                    .read_line(&mut cmd_input)
+                    .expect("Failed to read input.");
+                pkg_manager.push(cmd_input.trim().to_string());
+            }
+
+            unknown_pkg_manager = Some(pkg_manager.iter().map(|s| s.as_str()).collect());
         } else {
             exit(1);
         }
