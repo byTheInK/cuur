@@ -69,6 +69,7 @@ fn main(){
 
     if os_name == "Unknown" || !is_allowed {
         println!("Your operating system is not supported.");
+        exit(1);
     }
     
     let aur_helper = parsed
