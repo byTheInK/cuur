@@ -1,0 +1,7 @@
+[sys]
+works_on = ["all"]
+
+[startup]
+exec = ["echo Hello! | tee /tmp/cuur_test.txt"]
+
+[pkg]
