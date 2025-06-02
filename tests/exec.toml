@@ -1,7 +1,0 @@
-[sys]
-works_on = ["all"]
-
-[startup]
-exec = ["echo Hello! | tee /home/efe/test.txt"]
-
-[pkg]

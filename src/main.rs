@@ -5,16 +5,13 @@ use serde_yaml::from_str as parse_yaml;
 use std::{fs, process::exit};
 use toml::from_str as parse_toml;
 
-pub mod cli_opts;
+pub mod cli;
+pub mod funcs;
+pub mod structs;
 pub mod package_managers;
 
-mod lib {
-    pub mod funcs;
-    pub mod structs;
-}
-
-fn main() {
-    let args: cli_opts::Args = cli_opts::Args::parse();
+fn main(){
+    let args: cli::Args = cli::Args::parse();
 
     if args.debug {
         dbg!(&args);
@@ -28,7 +25,7 @@ fn main() {
         }
     };
 
-    let parsed: lib::structs::Cuur;
+    let parsed: structs::Cuur;
 
     if args.yaml {
         parsed = match parse_yaml(&contents) {
@@ -62,7 +59,7 @@ fn main() {
 
     let os_name = os_get().os_type().to_string();
     let works_on = &parsed.sys.works_on;
-    let mut is_allowed = lib::funcs::is_os_allowed(
+    let is_allowed = funcs::is_os_allowed(
         &os_name,
         works_on,
         package_managers::get_linux,
@@ -70,78 +67,26 @@ fn main() {
         package_managers::get_package_manager_install,
     );
 
-    let is_unknown: bool;
-    let unknown_pkg_manager: Option<Vec<&str>>;
-
-    if args.debug {
-        dbg!(&mut is_allowed);
-        dbg!(&os_name);
+    if os_name == "Unknown" || !is_allowed {
+        println!("Your operating system is not supported.");
     }
-
-    if os_name == "Unknown" {
-        println!("Your system doesn't support Cuur. Please check supported OS at: https://crates.io/crates/os_info.");
-        println!("Do you still want to continue? [y]es/[N]o");
-
-        let mut pkg_manager: Vec<String> = vec![];
-        let mut input = String::new();
-
-        std::io::stdin()
-            .read_line(&mut input)
-            .expect("Failed to read input.");
-
-        if input.trim().eq_ignore_ascii_case("y") {
-            is_allowed = true;
-            is_unknown = true;
-
-            for question_index in 0..3 {
-                let mut cmd_input = String::new();
-
-                match question_index {
-                    1 => println!("Enter your package manager name (e.g., apt, dnf, zypper)"),
-                    2 => println!("Enter the installation command (e.g., install, -S, download)"),
-                    3 => println!("Enter the auto-confirm flag (e.g., -y, --noconfirm, --yes)"),
-                    _ => (),
-                }
-
-                std::io::stdin()
-                    .read_line(&mut cmd_input)
-                    .expect("Failed to read input.");
-                pkg_manager.push(cmd_input.trim().to_string());
-            }
-
-            unknown_pkg_manager = Some(pkg_manager.iter().map(|s| s.as_str()).collect());
-        } else {
-            exit(1);
-        }
-    } else {
-        is_unknown = false;
-        unknown_pkg_manager = None;
-    }
-
+    
     let aur_helper = parsed
         .sys
         .aur_helper
         .clone()
         .unwrap_or_else(|| "yay".to_string());
 
-    if !is_allowed && !is_unknown {
-        eprintln!(
-            "This script does not support your system. If you wrote an incorrect name, check: https://crates.io/crates/os_info."
-        );
-        return;
-    }
-
-    if let Some(ref startup) = parsed.startup {
+        if let Some(ref startup) = parsed.startup {
         if let Some(ref exec) = startup.exec {
-            lib::funcs::execute_commands(exec);
+            funcs::execute_commands(exec);
         }
 
         if let Some(ref update) = startup.update {
             if *update {
-                lib::funcs::handle_system_update(
+                funcs::handle_package_update(
                     &os_name,
-                    parsed.sys.pkg_manager.clone(),
-                    package_managers::get_package_manager_upgrade,
+                    package_managers::get_package_manager_update,
                 );
             }
         }
@@ -150,22 +95,17 @@ fn main() {
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
-    lib::funcs::handle_package_installation(
+    funcs::handle_package_installation(
         &os_name,
-        &aur_helper,
-        default_aur,
         parsed.pkg.install,
         parsed.sys.pkg_name.clone(),
-        parsed.sys.pkg_manager.clone(),
         package_managers::get_package_manager_install,
     );
 
-    lib::funcs::handle_package_removal(
+    funcs::handle_package_removal(
         &os_name,
-        default_aur,
         parsed.pkg.remove,
         parsed.sys.pkg_name.clone(),
-        parsed.sys.pkg_manager.clone(),
         package_managers::get_package_manager_remove,
     );
 }

@@ -1,8 +1,0 @@
-sys:
-  works_on:
-    - all
-pkg:
-  install:
-    - vim
-    - neofetch
-    - htop

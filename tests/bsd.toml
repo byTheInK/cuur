@@ -1,5 +1,0 @@
-[sys]
-works_on = ["bsd"]
-
-[pkg]
-install = ["nano"]
