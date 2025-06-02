@@ -69,6 +69,7 @@ fn main(){
 
     if os_name == "Unknown" || !is_allowed {
         println!("Your operating system is not supported.");
+        println!("System name: {}", os_name);
         exit(1);
     }
     
