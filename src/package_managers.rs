@@ -48,7 +48,6 @@ pub fn get_package_manager_install(distro: &str) -> Option<&'static str> {
         ("Ultramarine Linux", "dnf install"),
         ("Unknown", "unknown"),
         ("Void Linux", "xbps-install -S"),
-        ("Windows", "winget install"),
         ("macOS", "brew install"),
     ]);
     map.get(distro).copied()
@@ -102,7 +101,6 @@ pub fn get_package_manager_remove(distro: &str) -> Option<&'static str> {
         ("Ultramarine Linux", "dnf remove"),
         ("Unknown", "unknown"),
         ("Void Linux", "xbps-remove"),
-        ("Windows", "winget uninstall"),
         ("macOS", "brew uninstall"),
     ]);
     map.get(distro).copied()
@@ -156,7 +154,6 @@ pub fn get_package_manager_update(distro: &str) -> Option<&'static str> {
         ("Ultramarine Linux", "dnf update"),
         ("Unknown", "unknown"),
         ("Void Linux", "xbps-install -Su"),
-        ("Windows", "winget upgrade"),
         ("macOS", "brew update && brew upgrade"),
     ]);
     map.get(distro).copied()

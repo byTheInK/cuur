@@ -2,6 +2,7 @@
 works_on = ["all"]
 
 [startup]
-exec = ["echo Hello! | tee /tmp/cuur_test.txt"]
+# exec = ["echo Hello! | tee /tmp/cuur_test.txt"]
+exec = ["read name && echo $name"]
 
 [pkg]
