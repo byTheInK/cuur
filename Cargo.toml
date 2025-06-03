@@ -23,3 +23,8 @@ buildflags = ["--release"]
 
 [package.metadata.rpm.targets]
 cuur = { path = "/usr/bin/cuur" }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1 
