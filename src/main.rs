@@ -13,12 +13,13 @@ pub mod package_managers;
 const VERSION: &str = "0.0.5";
 
 fn main(){
-    let args: cli::Args = cli::Args::parse();
+    let args: cli::Args = cli::Args::parse(); // Parse the args
 
     if args.debug {
         dbg!(&args);
     }
 
+    // Read the file
     let contents = match fs::read_to_string(&args.file) {
         Ok(content) => content,
         Err(err) => {
@@ -29,6 +30,7 @@ fn main(){
 
     let parsed: structs::Cuur;
 
+    // Yaml - Json - Toml check and parsing the file
     if args.yaml {
         parsed = match parse_yaml(&contents) {
             Ok(config) => config,
@@ -69,6 +71,7 @@ fn main(){
         package_managers::get_package_manager_install,
     );
 
+    // Exit if not allowed
     if os_name == "Unknown" || !is_allowed {
         println!("Your operating system is not supported.");
         println!("System name: {}", os_name);
@@ -81,11 +84,13 @@ fn main(){
         .clone()
         .unwrap_or_else(|| "yay".to_string());
 
-        if let Some(ref startup) = parsed.startup {
+    if let Some(ref startup) = parsed.startup {
+        // Execute on start
         if let Some(ref exec) = startup.exec {
             funcs::execute_commands(exec);
         }
 
+        // Update on start
         if let Some(ref update) = startup.update {
             if *update {
                 funcs::handle_package_update(
@@ -99,6 +104,7 @@ fn main(){
     println!("Activating the script...");
     let default_aur = parsed.sys.default_aur.unwrap_or(false);
 
+    // Install
     funcs::handle_package_installation(
         &os_name,
         parsed.pkg.install,
@@ -106,6 +112,7 @@ fn main(){
         package_managers::get_package_manager_install,
     );
 
+    // Remove
     funcs::handle_package_removal(
         &os_name,
         parsed.pkg.remove,
