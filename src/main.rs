@@ -10,6 +10,8 @@ pub mod funcs;
 pub mod structs;
 pub mod package_managers;
 
+const VERSION: &str = "0.0.5";
+
 fn main(){
     let args: cli::Args = cli::Args::parse();
 

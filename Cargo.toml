@@ -1,6 +1,6 @@
 [package]
 name = "cuur"
-version = "0.0.1"
+version = "0.0.5"
 edition = "2021"
 authors = ["Efe TUROĞLU <bay_inek@protonmail.com>"]
 license = "GPL-3"
