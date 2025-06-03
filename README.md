@@ -4,6 +4,9 @@ Cuur is an alternative to Nix but the extra features is instead of the Nix packa
 > [!WARNING]
 > Cuur currently doesn't work in Windows unless you use Windows subsystem for Linux.
 
+> [!WARNING]
+> You need [Homebrew](https://brew.sh/) to be installed if you want to use Cuur on macOS.
+
 # Installation
 You can get Cuur from [here](https://github.com/byTheInK/cuur/releases). Pick the correct package for your operating system or distribution. For Debian pick `.deb`, for Fedora `.rpm` and for Windows `.exe`.
 
